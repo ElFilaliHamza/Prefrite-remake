@@ -1,0 +1,53 @@
+.categories-container {
+    padding: 20px;
+  }
+  
+  .categories-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .home-link {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 2em;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .category-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    width: 200px;
+    height: 120px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  
+  

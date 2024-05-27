@@ -1,0 +1,72 @@
+.dashboard-container {
+  padding: 20px;
+}
+
+.dashboard-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  width: 180px;
+  height: 120px;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+/* Specific styles for each card */
+.card-categories { background: #f28b82; }
+.card-alerts { background: #fbbc04; }
+.card-stats { background: #d7aefb; }
+.card-accounts { background: #cce3de; }
+.card-inactive-clients { background: #fdcfe8; }
+.card-online-sellers { background: #aecbfa; }
+.card-sales { background: #9e9d24; }
+.card-payments { background: #34a853; }
+.card-status { background: #b0bec5; }

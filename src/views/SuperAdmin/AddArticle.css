@@ -1,0 +1,49 @@
+.add-article-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .add-article-container h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 20px;
+  }
+  
+  .submit-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #3700b3;
+  }
+  
