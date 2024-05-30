@@ -7,8 +7,8 @@ const Home = () => {
   return (
     <div className="home">
       <h1>Welcome to the Admin Dashboard</h1>
-      <Link to={`${config.baseUrl}/categories`}>Categories</Link>
-      <Link to={`${config.baseUrl}/clients`}>Clients</Link>
+      <Link to={`${config.Base_URL}/categories`}>Categories</Link>
+      <Link to={`${config.Base_URL}/clients`}>Clients</Link>
     </div>
   );
 };

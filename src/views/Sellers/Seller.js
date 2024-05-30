@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes, useMatch } from 'react-router-dom';
 import SellerHome from './SellerHome';
-import Sell from './Sell';
-import ClientDebit from './ClientDebit';
-import Invoices from './Invoices';
-import InvoiceDetail from './InvoiceDetail';
+import Sell from '../Sell';
+import ClientDebit from '../ClientDebit';
+import Invoices from '../Invoices';
+import InvoiceDetail from '../InvoiceDetail';
 import SellerState from './SellerState';
 import '../assets/css/main.css';
 

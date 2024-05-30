@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addCategory } from '../../api/categoriesApi';
-import './AddCategory.css'; // Custom CSS for styling
+import '../../assets/css/Styles/AddCategory.css'; // Custom CSS for styling
 
 const AddCategory = () => {
   const [name, setName] = useState('');

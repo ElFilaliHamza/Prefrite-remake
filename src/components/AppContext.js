@@ -1,6 +1,8 @@
+// AppContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import { checkSession } from '../api/loginAPI';
 import Loading from './Loading';
 import '../assets/css/main.css';
 
@@ -12,16 +14,18 @@ export const AppProvider = ({ children }) => {
     session: null,
     netError: false,
     loading: true,
+    socket: null,
   });
 
   useEffect(() => {
-    const checkSession = async () => {
+    const checkCurrSession = async () => {
       try {
-        const response = await api.post('/admin/session');
-        console.log("AppContext");
-        console.log(response.data);
-        if (response.data.logged) {
-          setState((prevState) => ({ ...prevState, session: response.data, loading: false }));
+        // console.log("Session");
+        const login_data = await checkSession(); // Ensure this matches your backend session check endpoint
+        // console.log("CheckSession");
+        // console.log(login_data);
+        if (login_data.logged) {
+          setState((prevState) => ({ ...prevState, session: login_data, loading: false }));
         } else {
           setState((prevState) => ({ ...prevState, loading: false }));
           navigate('/login');
@@ -31,7 +35,7 @@ export const AppProvider = ({ children }) => {
       }
     };
 
-    checkSession();
+    checkCurrSession();
   }, [navigate]);
 
   if (state.loading) {

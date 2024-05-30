@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './SuperAdminDashboard.css'; // Custom CSS for styling
+import '../../assets/css/Styles/SuperAdminDashboard.css'; // Custom CSS for styling
+import { fetchAlertsCount } from '../../api/alertsAPI';
+
 
 const SuperAdminDashboard = () => {
+  const [alertsCount, setAlertsCount] = useState(null);
+
+  useEffect(() => {
+    const getAlertsCount = async () => {
+      try {
+        const count = await fetchAlertsCount();
+        console.log("count: "+count)
+        setAlertsCount(count);
+      } catch (error) {
+        console.error('Error fetching alerts count:', error);
+      }
+    };
+
+    getAlertsCount();
+  }, []);
+    
+  
   return (
     <div className="dashboard-container">
-      <h1>Super Admin</h1>
       <div className="card-container">
         <Link to="/superadmin/categories" className="dashboard-card card-categories">
           <div className="card-icon"><i className="fas fa-list"></i></div>
@@ -14,7 +32,7 @@ const SuperAdminDashboard = () => {
         <Link to="/superadmin/alerts" className="dashboard-card card-alerts">
           <div className="card-icon"><i className="fas fa-bell"></i></div>
           <div className="card-title">Alertes</div>
-          <div className="card-badge">18</div>
+          <div className="card-badge">{alertsCount !== null ? alertsCount : 'Loading...'}</div>
         </Link>
         <Link to="/superadmin/stats" className="dashboard-card card-stats">
           <div className="card-icon"><i className="fas fa-chart-bar"></i></div>
@@ -28,7 +46,7 @@ const SuperAdminDashboard = () => {
           <div className="card-icon"><i className="fas fa-star"></i></div>
           <div className="card-title">Clients Inactives</div>
         </Link>
-        <Link to="/superadmin/onlineSellers" className="dashboard-card card-online-sellers">
+        <Link to="/superadmin/LiveSellers" className="dashboard-card card-online-sellers">
           <div className="card-icon"><i className="fas fa-wifi"></i></div>
           <div className="card-title">Vendeurs En Ligne</div>
           <div className="card-badge">X</div> {/* Replace X with dynamic count if available */}

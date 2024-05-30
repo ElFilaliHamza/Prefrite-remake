@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/api';
+import { logout } from '../api/loginAPI'; // Ensure this path is correct
 
 const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    api.post('/admin/session/logout', {}, { withCredentials: true }) // Ensure credentials are sent with the request
+    logout()
       .then(response => {
-        if (response.data.logged === false) {
+        if (response.logged === false) {
           navigate('/login'); // Redirect to the login page after successful logout
         }
-        console.log('logout response:', response.data.logged);
+        console.log('logout response:', response.logged);
       })
       .catch(error => {
         console.error('Error during logout:', error);

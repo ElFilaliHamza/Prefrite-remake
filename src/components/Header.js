@@ -10,14 +10,21 @@ import '../assets/css/main.css';
 
 const Header = () => {
   const [state] = useAppContext();
-
+  // console.log("role : "+state.session);
+  // console.log(state.session);
   return (
     <div className="user-nav">
       <div className="user-nav-item">
-        <Link className="user-name-title" to={config.baseUrl}>Admin</Link>
+      {state.session ? (
+          <Link className="user-name-title" to={config.Base_URL+state.session.route}>{ config.getRouteName(state.session.route)}</Link>
+        ) : (
+          <Link className="user-name-title" to={config.Base_URL}> Prefrite </Link>
+        )
+      }
       </div>
+        
       <div className="user-nav-item btn-group-around">
-        {state.session && state.session.role === 'superadmin' && (
+        {state.session && state.session.route === config.BASE_ROUTE && (
           <Link className="flat-btn btn-blue" to="/stats">Stats</Link>
         )}
         <RefreshButton />

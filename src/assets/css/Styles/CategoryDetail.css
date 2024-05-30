@@ -1,0 +1,92 @@
+.category-detail-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.category-detail-container h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.back-link {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.article-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  width: 200px;
+  height: 220px; /* Increased height to accommodate text */
+  text-decoration: none;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon img, .card-icon svg {
+  max-width: 80px; /* Adjusted size */
+  max-height: 80px; /* Adjusted size */
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px; /* Ensure text does not overflow */
+}
+
+.card-price {
+  font-size: 16px;
+  color: #333;
+}
+
+.add-card {
+  background: #f4f4f4;
+  color: #333;
+}
+
+.add-card .card-icon {
+  font-size: 40px;
+}
+
+.load-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.load-more-btn:hover {
+  background: #0056b3;
+}

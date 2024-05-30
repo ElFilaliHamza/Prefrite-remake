@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
 import { useAppContext } from '../components/AppContext';
-import './login.css'; // Assuming you have a CSS file for styling
+import '../assets/css/Styles/login.css'; // Assuming you have a CSS file for styling
 import '../assets/css/main.css';
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
     }
   };
   
-  console.log("Login Router");
+  // console.log("Login Router");
   
   return (
     <div className="login-container">

@@ -1,0 +1,84 @@
+.sellers-container {
+  padding: 20px;
+}
+
+.sellers-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sellers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.seller-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px; /* Adjust the height as needed */
+}
+
+.seller-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seller-card-body {
+  text-align: end;
+}
+.superlive-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.superlive-info-text {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.superlive-status-small {
+  margin-right: 10px;
+}
+
+.card-status-2 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2em; /* Increase the icon size */
+}
+
+.card-success-status {
+  color: rgb(0, 128, 79);
+  background-color: #fff;
+}
+
+.card-danger-status {
+  color: red;
+  background-color: #fff;
+}
+
+.connected .seller-card-header {
+  background-color: #e6ffed;
+}
+
+.disconnected .seller-card-header {
+  background-color: #ffe6e6;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 1.5em; /* Increase the button size */
+}

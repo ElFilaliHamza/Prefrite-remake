@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addArticle } from '../../api/articlesApi';
-import './AddArticle.css'; // Custom CSS for styling
+import '../../assets/css/Styles/AddArticle.css'; // Custom CSS for styling
 
 const AddArticle = () => {
   const [name, setName] = useState('');
@@ -25,7 +25,7 @@ const AddArticle = () => {
     }
 
     const formData = new FormData();
-    console.log("catId"+catId);
+    // console.log("catId"+catId);
     formData.append('catId', catId);
     formData.append('name', name);
     formData.append('prixVente', prixVente);
@@ -35,7 +35,7 @@ const AddArticle = () => {
     if (image) {
       formData.append('file', image);
     }
-
+    // console.log("Add art");
     try {
       const response = await addArticle(formData);
       if (response.ok) {

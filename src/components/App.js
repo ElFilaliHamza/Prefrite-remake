@@ -8,6 +8,7 @@ import Login from '../views/Login';
 import WebSocketManager from './WebSocketManager';
 import SuperAdminRoutes from './superadminRoutes' 
 import '../assets/css/main.css';
+import '../assets/css/Styles/Styles.css';
 
 const App = () => {
   return (

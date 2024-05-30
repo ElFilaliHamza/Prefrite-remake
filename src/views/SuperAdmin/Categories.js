@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../../api/categoriesApi';
-import './Categories.css'; // Custom CSS for styling
+import '../../assets/css/Styles/Categories.css'; // Custom CSS for styling
+
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [skip, setSkip] = useState(0);
   const [endCats, setEndCats] = useState(false);
-
+  const effectRan = useRef(false);
+  
   useEffect(() => {
-    loadCategories();
+    if (effectRan.current === false) {
+      loadCategories();
+      effectRan.current = true;
+    }
+    return () => {
+      effectRan.current = true;
+    };
   }, []);
 
   const loadCategories = async () => {
@@ -33,8 +41,8 @@ const Categories = () => {
         <Link to="/superadmin/addCategory" className="category-card add-card">
           <div className="card-icon"><i className="fas fa-plus"></i></div>
         </Link>
-        {categories.map(category => (
-          <Link to={`/superadmin/category/${category._id}`} key={category._id} className="category-card">
+        {categories.map((category,idx) => (
+          <Link to={`/superadmin/category/${category._id}`} key={category._id+idx} className="category-card">
             <div className="card-icon"><i className="fas fa-folder"></i></div>
             <div className="card-title">{category.name}</div>
           </Link>
