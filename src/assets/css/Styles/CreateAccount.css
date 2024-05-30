@@ -1,0 +1,45 @@
+/* CreateAccount.css */
+.create-account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .create-account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .create-account-form input,
+  .create-account-form select,
+  .create-account-form button {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .create-account-form button {
+    background-color: #4b63f5;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  
+  .create-account-form button:hover {
+    background-color: #3a51d1;
+  }
+  
+  .password-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-container i {
+    margin-left: -30px;
+    cursor: pointer;
+  }
+  

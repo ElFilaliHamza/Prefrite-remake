@@ -13,13 +13,17 @@ import AccountManagement from '../views/SuperAdmin/AccountManagement';
 import PaymentHistory from '../views/SuperAdmin/PaymentHistory';
 import StockStatus from '../views/SuperAdmin/StockStatus';
 import LiveSellers from '../views/Sellers/LiveSellers';
-import OffClients from '../views/SuperAdmin/OffClients';
+import OffClients from '../views/SuperAdmin/InactiveClients';
 import Stats from '../views/SuperAdmin/Stats';
 import ClientDebitStatus from '../views/SuperAdmin/ClientDebitStatus';
 import InvoiceDebitStatus from '../views/SuperAdmin/InvoiceDebitStatus';
 import InvoiceDetail from '../views/SuperAdmin/InvoiceDetail';
 import SellerStats from '../views/SuperAdmin/SellerStats';
 import Accounts from '../views/SuperAdmin/Accounts';
+import CreateAccount from '../views/SuperAdmin/CreateAccount';
+import InactiveClients from '../views/SuperAdmin/InactiveClients';
+import Status from '../views/SuperAdmin/Status';
+import EtatDeStock from '../views/SuperAdmin/EtatDeStock';
 
 const SuperAdminRoutes = () => {
   return (
@@ -27,12 +31,16 @@ const SuperAdminRoutes = () => {
       <Route path="/" element={<SuperAdminDashboard />} />
       <Route path="/categories" element={<Categories />} />
       <Route path="/accounts" element={<Accounts />} />
+      <Route path="/accounts/create" element={<CreateAccount />} />
       <Route path="/addCategory" element={<AddCategory />} />
       <Route path="/category/:catId" element={<CategoryDetail />} />
+      <Route path="/inactiveClients" element={<InactiveClients />} />
+      <Route path="/status" element={<Status />} />
       <Route path="/alerts" element={<Alerts />} />
       <Route path="/article/:idArt" element={<ArticleDetail />} />
       <Route path="/addArticle" element={<AddArticle />} />
       <Route path="/debitStatus" element={<DebitStatus />} />
+      <Route path="/stockStatus" element={<EtatDeStock />} />
       <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} />
       <Route path="/invoiceDebitStatus/:idClient" element={<InvoiceDebitStatus />} />
       <Route path="/invoiceDebitStatus/invoiceDetail/:idInvoice" element={<InvoiceDetail />} />

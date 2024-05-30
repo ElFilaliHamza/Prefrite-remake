@@ -11,18 +11,24 @@ const config = {
   }),
   
   ROLE_NAME: Object.freeze({
-    ADMIN: "Admin",
-    SELLER: "Seller",
+    ADMIN: "admin",
+    SELLER: "seller",
+    SUPER_SELLER: "superseller",
     MAGASIN: "magasin",
-    SUPER_ADMIN: "Super Admin",
+    SUPER_ADMIN: "superadmin",
   }),
 
   ROLE_NAME_TEXT: Object.freeze({
     ADMINS: "Adminisrateurs",
     SELLERS: "Vendeurs",
-    SUPER_SLLERS: "Super Vendeurs",
+    SUPER_SELLERS: "Super Vendeurs",
     MAGASINIERS: "Magasiniers",
     SUPER_ADMINS: "Super Admins",
+    ADMIN: "Adminisrateur",
+    SELLER: "Vendeur",
+    SUPER_SELLER: "Super Vendeur",
+    MAGASINIER: "Magasinier",
+    SUPER_ADMIN: "Super Admin",
   }),
 
   StatusCodes: Object.freeze({
@@ -38,11 +44,11 @@ const config = {
 config.getRouteName = (route) => {
   switch (route) {
     case config.BASE_ROUTE.ADMIN:
-      return config.ROLE_NAME.ADMIN;
+      return config.ROLE_NAME_TEXT.ADMIN;
     case config.BASE_ROUTE.SELLER:
-      return config.ROLE_NAME.SELLER;
+      return config.ROLE_NAME_TEXT.SELLER;
     case config.BASE_ROUTE.SUPER_ADMIN:
-      return config.ROLE_NAME.SUPER_ADMIN;
+      return config.ROLE_NAME_TEXT.SUPER_ADMIN;
     default:
       return "Unknown Role";
   }

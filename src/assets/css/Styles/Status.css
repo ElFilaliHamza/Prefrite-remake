@@ -1,0 +1,89 @@
+.dashboard-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.home-link {
+  font-size: 1.5rem;
+  color: black;
+  text-decoration: none;
+}
+
+.title {
+  font-size: 1.5rem;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.app-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 260px;
+  height: 140px;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5rem;
+}
+
+.card-status-long {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgb(215, 17, 17);
+  color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+}
+
+.card-c-9 {
+  background-color: #78909c;
+}
+
+.card-c-2 {
+  background-color: #fbc02d;
+}
+
+.card-c-8 {
+  background-color: #8e24aa;
+}
+
+.card-alert {
+  color: white;
+}
+
+.card-success-status {
+  color: green;
+}

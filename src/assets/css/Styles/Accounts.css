@@ -1,0 +1,125 @@
+.accounts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .create-account {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .account-card {
+    min-width: 250px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: height 0.3s ease-in-out;
+  }
+  
+  .account-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .account-action {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .accounts-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .accounts-category h2 {
+    margin: 0;
+    padding: 0 20px;
+  }
+  
+  .accounts-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 20px;
+  }
+  
+  .account-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .superusers-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .superusers-info-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .superusers-info-more {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  .superusers-info-text {
+    margin-left: 10px;
+  }
+  
+  .super-card-badge {
+    margin-left: auto;
+  }
+  
+  .superusers-actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  .superusers-action-btn {
+    cursor: pointer;
+  }
+  
+  .refresh-btn {
+    cursor: pointer;
+  }
+  
+  .superusers-more-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .superusers-more-btn .fas {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .superusers-more-btn-up .fas {
+    transform: rotate(180deg);
+  }
+  
+  .edit-input {
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  

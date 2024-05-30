@@ -81,7 +81,7 @@ const ArticleDetail = () => {
     try {
       await updateArticle(idArt, formData);
       setIsEditing(false);
-      fetchArticle();
+      await fetchArticle();
     } catch (error) {
       console.error("Error updating article:", error);
     }
