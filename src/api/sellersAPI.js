@@ -116,3 +116,23 @@ export const fetchSellerInfo = async () => {
     return {};
   }
 };
+
+
+export const checkSellerAccess = async () => {
+  try {
+    // Request access for seller
+    const accessResponse = await api.post('/superadmin/access', { type: 'seller' });
+    if (accessResponse.data.ok) {
+      // Create session for seller
+      const sessionResponse = await api.post('/seller/session');
+      if (sessionResponse.data.logged) {
+        // Fetch seller information
+        const infoResponse = await api.post('/seller/getAllInfo');
+        return infoResponse.data;
+      }
+    }
+  } catch (error) {
+    console.error('Error checking seller access:', error);
+    throw error;
+  }
+};

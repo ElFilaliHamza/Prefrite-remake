@@ -21,21 +21,35 @@ export const login = async (username, password) => {
   //   }
 };
 
-export const logout = async () => {
-  try {
-    console.log("logout");
-    const response = await api.post("/superadmin/session/logout");
-    // console.log(response.data)
-    return response.data;
-  } catch (error) {
-    console.error("Error logging out:", error);
-    throw error;
-  }
+export const logout = async (route) => {
+  const logoutEndpoint = route === "superadmin" ? "/superadmin/session/logout" : "/seller/session/logout";
+  
+  const response = await api.post(logoutEndpoint);
+  return response.data;
 };
 
 export const checkSession = async () => {
   try {
     const response = await api.post("/session");
+    return response.data;
+  } catch (error) {
+    console.error("Error checking session:", error);
+    return false;
+  }
+};
+
+export const checkSellerSession = async () => {
+  try {
+    const response = await api.post("/seller/session");
+    return response.data;
+  } catch (error) {
+    console.error("Error checking session:", error);
+    return false;
+  }
+};
+export const checkSuperAdminSession = async () => {
+  try {
+    const response = await api.post("/superadmin/session");
     return response.data;
   } catch (error) {
     console.error("Error checking session:", error);

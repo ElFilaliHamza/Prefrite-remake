@@ -41,7 +41,7 @@ const config = {
   SUPPORTED_IMAGE_FORMATS: ["image/jpeg", "image/png", "image/gif"],
 };
 
-config.getRouteName = (route) => {
+config.getRouteNameText = (route) => {
   switch (route) {
     case config.BASE_ROUTE.ADMIN:
       return config.ROLE_NAME_TEXT.ADMIN;
@@ -53,5 +53,20 @@ config.getRouteName = (route) => {
       return "Unknown Role";
   }
 };
+
+config.getRouteName = (route) => {
+  switch (route) {
+    case "superadmin":
+      return config.BASE_ROUTE.SUPER_ADMIN;
+    case "seller":
+      return config.BASE_ROUTE.SELLER;
+    case "admin":
+      return config.BASE_ROUTE.ADMIN;
+    case "magasin":
+      return config.BASE_ROUTE.MAGASIN;
+    default:
+      return "";
+  }
+}
 
 export default config;

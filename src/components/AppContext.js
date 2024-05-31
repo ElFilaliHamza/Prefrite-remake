@@ -1,10 +1,8 @@
-// AppContext.js
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../api/api';
-import { checkSession } from '../api/loginAPI';
-import Loading from './Loading';
-import '../assets/css/main.css';
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { checkSession } from "../api/loginAPI";
+import Loading from "./Loading";
+import "../assets/css/main.css";
 
 const AppContext = createContext();
 
@@ -15,26 +13,37 @@ export const AppProvider = ({ children }) => {
     netError: false,
     loading: true,
     socket: null,
+    sessionType: null, // Add sessionType
   });
 
-  useEffect(() => {
-    const checkCurrSession = async () => {
-      try {
-        // console.log("Session");
-        const login_data = await checkSession(); // Ensure this matches your backend session check endpoint
-        // console.log("CheckSession");
-        // console.log(login_data);
-        if (login_data.logged) {
-          setState((prevState) => ({ ...prevState, session: login_data, loading: false }));
-        } else {
-          setState((prevState) => ({ ...prevState, loading: false }));
-          navigate('/login');
-        }
-      } catch (error) {
-        setState((prevState) => ({ ...prevState, netError: true, loading: false }));
+  const checkCurrSession = async () => {
+    try {
+      const login_data = await checkSession();
+      if (login_data.logged) {
+        const sessionType = login_data.superadmin
+          ? "superadmin"
+          : login_data.sellerId
+          ? "seller"
+          : null;
+        setState((prevState) => ({
+          ...prevState,
+          session: login_data,
+          sessionType,
+          loading: false,
+        }));
+      } else {
+        setState((prevState) => ({ ...prevState, loading: false }));
+        navigate("/login");
       }
-    };
-
+    } catch (error) {
+      setState((prevState) => ({
+        ...prevState,
+        netError: true,
+        loading: false,
+      }));
+    }
+  };
+  useEffect(() => {
     checkCurrSession();
   }, [navigate]);
 

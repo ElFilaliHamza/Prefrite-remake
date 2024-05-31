@@ -7,10 +7,10 @@ import RefreshButton from "./RefreshButton";
 import config from "../config/config";
 import "../assets/css/main.css";
 
-const Header = () => {
+const Header = ({ title, logoutRoute }) => {
   const [state] = useAppContext();
-  // console.log("role : "+state.session);
-  // console.log(state.session);
+  const sessionType = state.session?.route || "";
+
   return (
     <div className="user-nav">
       <div className="user-nav-item">
@@ -19,12 +19,11 @@ const Header = () => {
             className="user-name-title"
             to={config.Base_URL + state.session.route}
           >
-            {config.getRouteName(state.session.route)}
+            {title}
           </Link>
         ) : (
           <Link className="user-name-title" to={config.Base_URL}>
-            {" "}
-            Prefrite{" "}
+            Prefrite
           </Link>
         )}
       </div>
@@ -37,7 +36,7 @@ const Header = () => {
         )}
         <RefreshButton />
         <ThemeToggleButton />
-        <LogoutButton />
+        <LogoutButton route={logoutRoute} />
       </div>
     </div>
   );

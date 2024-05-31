@@ -24,33 +24,38 @@ import CreateAccount from '../views/SuperAdmin/CreateAccount';
 import InactiveClients from '../views/SuperAdmin/InactiveClients';
 import Status from '../views/SuperAdmin/Status';
 import EtatDeStock from '../views/SuperAdmin/EtatDeStock';
+import config from '../config/config';
+import Header from './Header';
 
 const SuperAdminRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<SuperAdminDashboard />} />
-      <Route path="/categories" element={<Categories />} />
-      <Route path="/accounts" element={<Accounts />} />
-      <Route path="/accounts/create" element={<CreateAccount />} />
-      <Route path="/addCategory" element={<AddCategory />} />
-      <Route path="/category/:catId" element={<CategoryDetail />} />
-      <Route path="/inactiveClients" element={<InactiveClients />} />
-      <Route path="/status" element={<Status />} />
-      <Route path="/alerts" element={<Alerts />} />
-      <Route path="/article/:idArt" element={<ArticleDetail />} />
-      <Route path="/addArticle" element={<AddArticle />} />
-      <Route path="/debitStatus" element={<DebitStatus />} />
-      <Route path="/stockStatus" element={<EtatDeStock />} />
-      <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} />
-      <Route path="/invoiceDebitStatus/:idClient" element={<InvoiceDebitStatus />} />
-      <Route path="/invoiceDebitStatus/invoiceDetail/:idInvoice" element={<InvoiceDetail />} />
-      <Route path="/accountManagement" element={<AccountManagement />} />
-      <Route path="/payments" element={<PaymentHistory />} />
-      <Route path="/stockStatus" element={<StockStatus />} />
-      <Route path="/liveSellers" element={<LiveSellers />} />
-      <Route path="/stats" element={<Stats />} />
-      <Route path="/stats/SellerStats/:idSeller" element={<SellerStats />} />
-    </Routes>
+    <div>
+      <Header title="Super Admin" logoutRoute="superadmin" />
+      <Routes>
+        <Route path="/" element={<SuperAdminDashboard />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/accounts" element={<Accounts />} />
+        <Route path="/accounts/create" element={<CreateAccount />} />
+        <Route path="/addCategory" element={<AddCategory />} />
+        <Route path="/category/:catId" element={<CategoryDetail />} />
+        <Route path="/inactiveClients" element={<InactiveClients />} />
+        <Route path="/status" element={<Status />} />
+        <Route path="/alerts" element={<Alerts />} />
+        <Route path="/article/:idArt" element={<ArticleDetail />} />
+        <Route path="/addArticle" element={<AddArticle />} />
+        <Route path="/debitStatus" element={<DebitStatus />} />
+        <Route path="/stockStatus" element={<EtatDeStock />} />
+        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} />
+        <Route path="/invoiceDebitStatus/:idClient" element={<InvoiceDebitStatus />} />
+        <Route path="/invoiceDebitStatus/invoiceDetail/:idInvoice" element={<InvoiceDetail />} />
+        <Route path="/accountManagement" element={<AccountManagement />} />
+        <Route path="/payments" element={<PaymentHistory />} />
+        <Route path="/stockStatus" element={<StockStatus />} />
+        <Route path="/liveSellers" element={<LiveSellers />} />
+        <Route path="/stats" element={<Stats />} />
+        <Route path="/stats/SellerStats/:idSeller" element={<SellerStats />} />
+      </Routes>
+    </div>
   );
 };
 

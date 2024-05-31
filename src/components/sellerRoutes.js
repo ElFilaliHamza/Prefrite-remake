@@ -1,12 +1,16 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import SellerDashboard from './SellerDashboard';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import SellerDashboard from "./SellerDashboard";
+import Header from "./Header";
 
 const SellerRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<SellerDashboard />} />
-    </Routes>
+    <div>
+      <Header title="Seller" logoutRoute="seller" />
+      <Routes>
+        <Route path="/" element={<SellerDashboard />} />
+      </Routes>
+    </div>
   );
 };
 

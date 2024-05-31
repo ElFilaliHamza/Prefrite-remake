@@ -1,15 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../api/loginAPI'; // Ensure this path is correct
+import { logout } from '../api/loginAPI';
 
-const LogoutButton = () => {
+const LogoutButton = ({ route }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout()
+    logout(route)
       .then(response => {
         if (response.logged === false) {
           navigate('/login'); // Redirect to the login page after successful logout
+        }else{
+          navigate('/superadmin');
         }
         console.log('logout response:', response.logged);
       })

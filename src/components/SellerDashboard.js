@@ -1,44 +1,19 @@
 // src/views/Seller/SellerDashboard.js
 
-import React, { useState, useEffect } from 'react';
-import { requestSellerAccess, createSellerSession, fetchSellerInfo } from '../api/sellersAPI';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import '../assets/css/Styles/SellerDashboard.css'; // Custom CSS for styling
-import Loading from './Loading';
 
 const SellerDashboard = () => {
-  const [sellerData, setSellerData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const initSellerPage = async () => {
-      try {
-        const accessGranted = await requestSellerAccess();
-        if (accessGranted) {
-          const sessionCreated = await createSellerSession();
-          if (sessionCreated) {
-            const data = await fetchSellerInfo();
-            setSellerData(data);
-          }
-        }
-      } catch (error) {
-        console.error("Error initializing seller page:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initSellerPage();
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
-
+  const location = useLocation();
+  const sellerData = location.state?.sellerData;
+  console.log("sellerData");
+  console.log(sellerData);
   if (!sellerData) {
     return <div>Error loading seller data</div>;
   }
 
-  const { stats } = sellerData?.artsNcats || {};
+  const { stats } = sellerData?.artsNcats.stats || {};
 
   return (
     <div className="seller-container">
@@ -62,13 +37,13 @@ const SellerDashboard = () => {
           <div className="card-title">Commandes <i className="fas fa-sync"></i></div>
         </div>
         <div className="card">
-          <div className="card-title">Revenu: {stats?.totalRevenue || '0'} DHS</div>
+          <div className="card-title">Revenu: {stats?.profit || '0'} DHS</div>
         </div>
         <div className="card">
-          <div className="card-title">My Commission: {stats?.totalCommission || '0'} DHS</div>
+          <div className="card-title">My Commission: {stats?.profit || '0'} DHS</div>
         </div>
         <div className="card">
-          <div className="card-title">Credit: {stats?.totalCredit || '0'} DHS</div>
+          <div className="card-title">Credit: {stats?.credit || '0'} DHS</div>
         </div>
       </div>
     </div>
