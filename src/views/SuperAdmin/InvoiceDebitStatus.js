@@ -14,7 +14,7 @@ const InvoiceDebitStatus = () => {
   useEffect(() => {
     const getInvoicesData = async () => {
       try {
-        console.log("Invoices");
+        // console.log("Invoices");
         const data = await fetchInvoicesDebitData(idClient);
         console.log(data);
         setInvoices(data);

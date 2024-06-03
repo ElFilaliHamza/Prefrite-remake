@@ -28,7 +28,7 @@ export const computeSellerStatistics = (seller) => {
       credit: credit,
     };
   } catch (err) {
-    console.log("seller stats error: ", err);
+    console.error("seller stats error: ", err);
     return {
       statut: 0,
       benefice: 0,

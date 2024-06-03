@@ -23,8 +23,8 @@ export const fetchInactiveClients = async (startDate, endDate) => {
         endTime: endDate,
       }
     );
-    console.log("response.data.clients");
-    console.log(response.data.clients);
+    // console.log("response.data.clients");
+    // console.log(response.data.clients);
     return response.data.clients || [];
   } catch (error) {
     console.error("Error fetching inactive clients:", error);

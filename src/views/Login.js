@@ -1,63 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/api';
+import { login } from '../api/loginAPI';
 import { useAppContext } from '../components/AppContext';
-import '../assets/css/Styles/login.css'; // Assuming you have a CSS file for styling
-import '../assets/css/main.css';
+import '../assets/css/Styles/login.css';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [, setState] = useAppContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const [state, setState] = useAppContext();
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-
+  const handleLogin = async () => {
     try {
-      const response = await api.post('/login', { username, password });
+      const response = await login(username, password);
       if (response.data.logged) {
-        setState((prevState) => ({ ...prevState, session: response.data }));
-        navigate(`/${response.data.route}`); // Redirect based on role
+        const { route } = response.data;
+        setState((prevState) => ({
+          ...prevState,
+          session: response.data,
+          sessionRoute: route,
+        }));
+        navigate(`/${route}`);
       } else {
-        setError('Invalid username or password.');
+        setErrorMessage('Login failed');
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (error) {
+      setErrorMessage('An error occurred. Please try again.');
     }
   };
-  
-  // console.log("Login Router");
-  
+
   return (
     <div className="login-container">
       <h1>Login</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="submit-btn">Login</button>
-      </form>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button className="submit-btn" onClick={handleLogin}>Login</button>
     </div>
   );
 };

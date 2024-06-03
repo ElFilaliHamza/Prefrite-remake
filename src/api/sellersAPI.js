@@ -39,8 +39,8 @@ export const fetchSellerData = async (_id, startTime, endTime) => {
       "http://localhost/superadmin/sellers/getOne",
       { _id, startTime, endTime }
     );
-    console.log("seller getseller info");
-    console.log(response.data);
+    // console.log("seller getseller info");
+    // console.log(response.data);
 
     return response.data.seller;
   } catch (error) {
@@ -136,3 +136,15 @@ export const checkSellerAccess = async () => {
     throw error;
   }
 };
+
+
+export const fetchClients = async () => {
+  try {
+    const response = await api.post('/seller/getAllInfo');
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching clients data', error);
+  }
+};
+

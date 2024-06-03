@@ -30,7 +30,7 @@ import Header from './Header';
 const SuperAdminRoutes = () => {
   return (
     <div>
-      <Header title="Super Admin" logoutRoute="superadmin" />
+      <Header title="Super Admin" logout_route="superadmin" />
       <Routes>
         <Route path="/" element={<SuperAdminDashboard />} />
         <Route path="/categories" element={<Categories />} />

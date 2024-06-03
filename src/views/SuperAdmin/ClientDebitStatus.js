@@ -15,8 +15,8 @@ const ClientDebitStatus = () => {
     const getClientsData = async () => {
       try {
         const data = await fetchClientsDebitData(idSeller);
-        console.log("getClientsData")
-        console.log(data)
+        // console.log("getClientsData")
+        // console.log(data)
         setClients(data);
         setLoading(false);
       } catch (error) {

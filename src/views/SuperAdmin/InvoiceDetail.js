@@ -15,8 +15,8 @@ const InvoiceDetail = () => {
     const getInvoiceData = async () => {
       try {
         const data = await fetchInvoiceData(idInvoice);
-        console.log("Invoice")
-        console.log(data)
+        // console.log("Invoice")
+        // console.log(data)
         setInvoice(data);
         setLoading(false);
       } catch (error) {

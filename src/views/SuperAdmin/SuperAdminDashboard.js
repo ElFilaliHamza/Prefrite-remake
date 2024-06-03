@@ -21,17 +21,17 @@ const SuperAdminDashboard = () => {
     getAlertsCount();
   }, []);
 
-  const handleVenteClick = async (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    try {
-      const sellerData = await checkSellerAccess();
-      if (sellerData) {
-        navigate('/seller', { state: { sellerData } });
-      }
-    } catch (error) {
-      console.error('Error handling vente click:', error);
-    }
-  };
+  // const handleVenteClick = async (e) => {
+  //   e.preventDefault(); // Prevent default link behavior
+  //   try {
+  //     const sellerData = await checkSellerAccess();
+  //     if (sellerData) {
+  //       navigate('/seller', { state: { sellerData } });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error handling vente click:', error);
+  //   }
+  // };
 
   return (
     <div className="dashboard-container">
@@ -76,7 +76,7 @@ const SuperAdminDashboard = () => {
           <div className="card-title">Vendeurs En Ligne</div>
           <div className="card-badge card-badge-alert">X</div> {/* Replace X with dynamic count if available */}
         </Link>
-        <a href="/seller" className="dashboard-card card-sales" onClick={handleVenteClick}>
+        <a href="/seller" className="dashboard-card card-sales">
           <div className="card-icon">
             <i className="fas fa-truck"></i>
           </div>

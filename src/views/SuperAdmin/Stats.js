@@ -25,8 +25,8 @@ const Stats = ({ startTime, endTime }) => {
           calculateDaysInterval(startTime, endTime)
         );
         const sellersStats = getSellersRevenue(sellersData.sellers);
-        console.log("sellersStats");
-        console.log(sellersStats);
+        // console.log("sellersStats");
+        // console.log(sellersStats);
         setSellersStats(sellersStats);
         setStatistics(stats);
         setSellers(sellersData.sellers);

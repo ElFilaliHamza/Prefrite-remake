@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkSession } from "../api/loginAPI";
+import { checkSession } from "../api/loginAPI"; // Ensure this is correctly imported
 import Loading from "./Loading";
 import "../assets/css/main.css";
 
@@ -12,23 +12,20 @@ export const AppProvider = ({ children }) => {
     session: null,
     netError: false,
     loading: true,
-    socket: null,
-    sessionType: null, // Add sessionType
+    sessionRoute: null,
   });
 
   const checkCurrSession = async () => {
     try {
       const login_data = await checkSession();
       if (login_data.logged) {
-        const sessionType = login_data.superadmin
-          ? "superadmin"
-          : login_data.sellerId
-          ? "seller"
-          : null;
+        const sessionRoute = login_data.route;
+        console.log("login_data.route");
+        console.log(sessionRoute);
         setState((prevState) => ({
           ...prevState,
           session: login_data,
-          sessionType,
+          sessionRoute,
           loading: false,
         }));
       } else {
@@ -36,6 +33,7 @@ export const AppProvider = ({ children }) => {
         navigate("/login");
       }
     } catch (error) {
+      console.log(error)
       setState((prevState) => ({
         ...prevState,
         netError: true,
@@ -43,6 +41,7 @@ export const AppProvider = ({ children }) => {
       }));
     }
   };
+
   useEffect(() => {
     checkCurrSession();
   }, [navigate]);
@@ -52,7 +51,7 @@ export const AppProvider = ({ children }) => {
   }
 
   if (state.netError) {
-    return <div>Erreur de connexion</div>;
+    return <div>Connection Error</div>;
   }
 
   return (

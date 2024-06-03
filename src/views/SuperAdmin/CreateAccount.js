@@ -26,8 +26,8 @@ const CreateAccount = () => {
       };
 
       const response = await createAccount(account);
-      console.log("response");
-      console.log(response);
+      // console.log("response");
+      // console.log(response);
       if (response.ok) {
         navigate("/superadmin/accounts");
       } else {

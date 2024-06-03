@@ -1,24 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "./AppContext";
+import { useSellerData } from "./SellerDataContext";
 import LogoutButton from "./LogoutButton";
 import ThemeToggleButton from "./ThemeToggleButton";
 import RefreshButton from "./RefreshButton";
 import config from "../config/config";
 import "../assets/css/main.css";
 
-const Header = ({ title, logoutRoute }) => {
+const Header = ({ logout_route }) => {
   const [state] = useAppContext();
-  const sessionType = state.session?.route || "";
+  const sessionRoute = state.sessionRoute || "";
+  const sellerData = useSellerData();
+  const title = sellerData?.sellerInfo?.name || "Loading...";
 
   return (
     <div className="user-nav">
       <div className="user-nav-item">
         {state.session ? (
-          <Link
-            className="user-name-title"
-            to={config.Base_URL + state.session.route}
-          >
+          <Link className="user-name-title" to={config.Base_URL + sessionRoute}>
             {title}
           </Link>
         ) : (
@@ -36,7 +36,7 @@ const Header = ({ title, logoutRoute }) => {
         )}
         <RefreshButton />
         <ThemeToggleButton />
-        <LogoutButton route={logoutRoute} />
+        <LogoutButton logout_route={logout_route} />
       </div>
     </div>
   );
