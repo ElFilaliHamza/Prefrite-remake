@@ -4,6 +4,7 @@ import api from '../api/api';
 import Loading from '../components/Loading';
 import { Navigate } from 'react-router-dom';
 import '../assets/css/main.css';
+import config from '../config/config';
 
 const Invoices = () => {
   const [state] = useAppContext();
@@ -56,9 +57,9 @@ const Invoices = () => {
           value={filter.state}
           onChange={handleFilterChange}
         >
-          <option value="all">All</option>
-          <option value="not_paid">Not Paid</option>
-          <option value="paid">Paid</option>
+          <option value={`${config.INVOICE_STATE.ALL}`}>All</option>
+          <option value={`${config.INVOICE_STATE.NOT_PAID}`}>Not Paid</option>
+          <option value={`${config.INVOICE_STATE.PAID}`}>Paid</option>
         </select>
         <input
           type="date"

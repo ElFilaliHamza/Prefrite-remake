@@ -24,3 +24,5 @@ yarn-error.log*
 
 extra-tools
 node_modules
+rand
+

@@ -1,15 +1,15 @@
 import api from "./api";
 
 export const login = async (username, password) => {
-    try {
-      const response = await api.post('/Login', { username, password });
-      // console.log("login");
-      // console.log(response.data);
-      return response;
-    } catch (error) {
-      console.error('Error logging in:', error);
-      throw error;
-    }
+  try {
+    const response = await api.post("/Login", { username, password });
+    // console.log("login");
+    // console.log(response.data);
+    return response;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
+  }
   // try {
   //   const response = await api.post("/login", { username, password });
   //   console.log("login");
@@ -23,7 +23,7 @@ export const login = async (username, password) => {
 
 // export const logout = async (route) => {
 //   const logoutEndpoint = route === "superadmin" ? "/superadmin/session/logout" : "/seller/session/logout";
-  
+
 //   const response = await api.post(logoutEndpoint);
 //   return response.data;
 // };
@@ -33,6 +33,7 @@ export const logout = async (route) => {
   console.log(route);
   logoutEndpoint = `/${route}/session/logout`;
 
+  // const response_2 = await api.post("admin/session/logout");
   const response = await api.post(logoutEndpoint);
   return response.data;
 };
@@ -40,6 +41,8 @@ export const logout = async (route) => {
 export const checkSession = async () => {
   try {
     const response = await api.post("/session");
+    console.log("checkSession");
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error checking session:", error);

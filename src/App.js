@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./assets/css/styles.css";
+import "./assets/css/main.css";
+import WebSocketManager from "./components/WebSocketManager";
+import SuperAdminRoutes from "./routes/superadminRoutes";
+import SellerRoutes from "./routes/sellerRoutes";
+import Login from "./views/Login";
+import { AppProvider } from "./components/contexts/AppContext";
+import PageNotFound from "./views/PageNotFound";
+import AdminRoutes from "./routes/adminRoutes";
+import { SellerDataProvider } from "./components/contexts/SellerContext";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppProvider>
+        <WebSocketManager />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/superadmin/*" element={<SuperAdminRoutes />} />
+          <Route
+            path="/seller/*"
+            element={
+              <SellerDataProvider>
+                <SellerRoutes />
+              </SellerDataProvider>
+            }
+          />
+          <Route path="/admin/*" element={<AdminRoutes />} />
+          {/* <Route path="/magasin/*" element={<MagasinRoutes />} /> */}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </AppProvider>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/Styles/Accounts.css"; // Import the CSS file
 import { fetchAccounts } from "../../api/accountsAPI";
 import config from "../../config/config";
 import Loading from "../../components/Loading";
@@ -82,113 +81,117 @@ const Accounts = () => {
   }
 
   return (
-    <div className="accounts-container">
-      <Link to={`/superadmin/accounts/create`}>
-        <div className="create-account">
-          <div className="account-card">
-            <div className="account-icon">+</div>
-            <div>Créer un compte</div>
-          </div>
+    <div className="app-container">
+      <div className="simple-container">
+        <div className="card-list superusers-list">
+          <Link className="app-card" to="/superadmin/accounts/create">
+            Créer un compte
+            <div className="card-badge card-user">
+              <i className="fas fa-plus"></i>
+            </div>
+          </Link>
         </div>
-      </Link>
-
-      {Object.entries(categories).map(([categoryName, categoryAccounts]) => (
-        <div className="accounts-category" key={categoryName}>
-          <h2>{config.ROLE_NAME_TEXT[categoryName.toUpperCase()]} :</h2>
-          <div className="accounts-list">
-            {categoryAccounts.map((account) => (
-              <div
-                key={account._id}
-                className={`account-card ${
-                  expandedCard === account._id ? "expanded" : ""
-                }`}
-              >
-                <div className="superusers-info superusers-info-flex">
-                  <div>
-                    <i className="fas fa-address-book"></i>
-                    {editMode === account._id ? (
-                      <input
-                        type="text"
-                        value={updatedName}
-                        onChange={(e) => setUpdatedName(e.target.value)}
-                        className="edit-input"
-                      />
-                    ) : (
-                      <span className="superusers-info-text">
-                        {account.name}
-                      </span>
-                    )}
-                  </div>
-                  <div className="super-card-badge">
-                    <i className="fas fa-truck"></i>
-                  </div>
-                </div>
-                {expandedCard === account._id && (
-                  <div className="superusers-info superusers-info-more">
+        {Object.entries(categories).map(([categoryName, categoryAccounts]) => (
+          <React.Fragment key={categoryName}>
+            <div className="superusers-title">
+              {config.ROLE_NAME_TEXT[categoryName.toUpperCase()]}:
+            </div>
+            <div className="card-list superusers-list">
+              {categoryAccounts.map((account) => (
+                <div key={account._id} className={`app-card superusers-card`}>
+                  <div className="superusers-info superusers-info-flex">
                     <div>
-                      <i className="fas fa-user"></i>
-                      <span className="superusers-info-text">
-                        {account.username}
-                      </span>
+                      <i className="fas fa-address-book"></i>
+                      {editMode === account._id ? (
+                        <input
+                          type="text"
+                          value={updatedName}
+                          onChange={(e) => setUpdatedName(e.target.value)}
+                          className="edit-input"
+                        />
+                      ) : (
+                        <span className="superusers-info-text">
+                          {account.name}
+                        </span>
+                      )}
                     </div>
-                    <div>
-                      <i className="fas fa-lock"></i>
-                      <span className="superusers-info-text">
-                        {account.password}
-                      </span>
+                    <div className="super-card-badge">
+                      <i className="fas fa-truck"></i>
                     </div>
                   </div>
-                )}
-                {expandedCard === account._id && (
-                  <div className="superusers-actions">
-                    {editMode === account._id ? (
-                      <>
-                        <div
-                          className="superusers-action-btn"
-                          onClick={() => handleUpdate(account)}
-                        >
-                          <i className="fas fa-check"></i>
-                        </div>
-                        <div
-                          className="superusers-action-btn"
-                          onClick={() => setEditMode(null)}
-                        >
-                          <i className="fas fa-times"></i>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="superusers-action-btn superusers-open">
-                          <i className="fas fa-external-link-alt"></i>
-                        </div>
-                        <div
-                          className="superusers-action-btn superusers-edit"
-                          onClick={() => startEdit(account)}
-                        >
-                          <i className="fas fa-pen-alt"></i>
-                        </div>
-                        <div className="superusers-action-btn superusers-delete">
-                          <i className="fas fa-trash"></i>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
-                <div
-                  className={`refresh-btn superusers-more-btn`}
-                  onClick={() => toggleCardExpansion(account._id)}
-                >
-                  <i
-                    className={`fas fa-arrow-${
-                      expandedCard === account._id ? "up" : "down"
+                  {expandedCard === account._id && (
+                    <div className="superusers-info superusers-info-more">
+                      <div>
+                        <i className="fas fa-user"></i>
+                        <span className="superusers-info-text">
+                          {account.username}
+                        </span>
+                      </div>
+                      <div>
+                        <i className="fas fa-lock"></i>
+                        <span className="superusers-info-text">
+                          {account.password}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {expandedCard === account._id && (
+                    <div className="superusers-actions">
+                      {editMode === account._id ? (
+                        <>
+                          <div
+                            className="superusers-action-btn"
+                            onClick={() => handleUpdate(account)}
+                          >
+                            <i className="fas fa-check"></i>
+                          </div>
+                          <div
+                            className="superusers-action-btn"
+                            onClick={() => setEditMode(null)}
+                          >
+                            <i className="fas fa-times"></i>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Link to={`/${account.type}`}>
+                            <div className="superusers-action-btn superusers-open">
+                              <i className="fas fa-external-link-alt"></i>
+                            </div>
+                          </Link>
+                          <div
+                            className="superusers-action-btn superusers-edit"
+                            onClick={() => startEdit(account)}
+                          >
+                            <i className="fas fa-pen-alt"></i>
+                          </div>
+                          <div className="superusers-action-btn superusers-delete">
+                            <i className="fas fa-trash"></i>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <div
+                    className={`refresh-btn superusers-more-btn ${
+                      expandedCard === account._id
+                        ? "superusers-more-btn-up"
+                        : ""
                     }`}
-                  ></i>
+                    onClick={() => toggleCardExpansion(account._id)}
+                  >
+                    <i
+                      className={`fas fa-arrow-${
+                        expandedCard === account._id ? "up" : "down"
+                      }`}
+                    ></i>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+              ))}
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };

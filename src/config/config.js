@@ -37,6 +37,18 @@ const config = {
     INTERNAL_ERROR: 500,
   }),
 
+  INVOICE_STATE: Object.freeze({
+    PAID: 'paid',
+    NOT_PAID: 'not_paid',
+    ALL: 'all',
+  }),
+  ALLOWED_ROUTES: Object.freeze({
+    superadmin: '/superadmin',
+    admin: '/admin',
+    seller: '/seller',
+    magasin: '/magasin',
+  }),
+
   MAX_UPLOAD_SIZE: 5 * 1024 * 1024, // 5 MB
   SUPPORTED_IMAGE_FORMATS: ["image/jpeg", "image/png", "image/gif"],
 };

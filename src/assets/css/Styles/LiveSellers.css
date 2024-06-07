@@ -64,7 +64,7 @@
 
 .card-danger-status {
   color: red;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 .connected .seller-card-header {

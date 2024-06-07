@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAppContext } from "./AppContext";
-import { useSellerData } from "./SellerDataContext";
-import LogoutButton from "./LogoutButton";
+import { useAppContext } from "./contexts/AppContext";
+import { useSellerData } from "./contexts/SellerContext";
+import LogoutButton from "./auth/LogoutButton";
 import ThemeToggleButton from "./ThemeToggleButton";
 import RefreshButton from "./RefreshButton";
 import config from "../config/config";
-import "../assets/css/main.css";
+// import "../assets/css/main.css";
 
-const Header = ({ logout_route }) => {
+const Header = ({ title, logout_route }) => {
   const [state] = useAppContext();
-  const sessionRoute = state.sessionRoute || "";
+  const sessionRoute = state.session.route || "";
   const sellerData = useSellerData();
-  const title = sellerData?.sellerInfo?.name || "Loading...";
+  if (!title) {
+    title = sellerData?.sellerInfo?.name || "Loading...";
+  }
 
   return (
     <div className="user-nav">

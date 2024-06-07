@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addCategory } from '../../api/categoriesApi';
-import '../../assets/css/Styles/AddCategory.css'; // Custom CSS for styling
+// import '../../assets/css/Styles/AddCategory.css'; // Custom CSS for styling
 
 const AddCategory = () => {
   const [name, setName] = useState('');
@@ -25,22 +25,56 @@ const AddCategory = () => {
   };
 
   return (
-    <div className="add-category-container">
-      <h1>Ajouter une categorie</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Nom:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <div className="app-container">
+      <div className="user-nav">
+        <div className="user-nav-item">
+          <a className="user-name-title" href="/superadmin">Super Admin</a>
         </div>
-        <button type="submit" className="submit-btn">Creer</button>
-      </form>
+        <div className="user-nav-item btn-group-around">
+          <div className="refresh-btn" tabIndex="0">
+            <i className="fas fa-sync"></i>
+          </div>
+          <div className="refresh-btn" tabIndex="0" style={{ margin: '5px 10px' }}>
+            <i className="fas fa-adjust"></i>
+          </div>
+          <div className="Btn logoutBtn refresh-btn">
+            <i className="fas fa-sign-out"></i>
+          </div>
+        </div>
+      </div>
+      <div className="simple-container">
+        <div className="path-nav">
+          <a className="path-btn" href="/superadmin">
+            <i className="fas fa-home"></i>
+          </a>
+          <a className="path-btn" href="/superadmin/categories">
+            <i className="fas fa-list"></i>
+          </a>
+          <a className="path-nav-item" href="/superadmin/category/63d5803661e84f6667aa91be">
+            Categorie Correspondante
+          </a>
+        </div>
+        <div className="add-page">
+          <form className="add-form" onSubmit={handleSubmit}>
+            <div className="appTitle">Ajouter une categorie</div>
+            <div className="appInput">
+              <input 
+                placeholder="Nom"
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <label tabIndex="0" className="submit-btn">
+              <input type="submit" hidden />
+              Creer
+            </label>
+          </form>
+        </div>
+      </div>
+      
     </div>
   );
 };

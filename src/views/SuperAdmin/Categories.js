@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { getCategories } from '../../api/categoriesApi';
-import '../../assets/css/Styles/Categories.css'; // Custom CSS for styling
-
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { getCategories } from "../../api/categoriesApi";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [skip, setSkip] = useState(0);
   const [endCats, setEndCats] = useState(false);
   const effectRan = useRef(false);
-  
+
   useEffect(() => {
     if (effectRan.current === false) {
       loadCategories();
@@ -23,34 +21,67 @@ const Categories = () => {
   const loadCategories = async () => {
     try {
       const data = await getCategories(skip);
-      setCategories(prevCategories => [...prevCategories, ...data.array]);
+      setCategories((prevCategories) => [...prevCategories, ...data.array]);
       setEndCats(data.endCats);
-      setSkip(prevSkip => prevSkip + data.array.length);
+      setSkip((prevSkip) => prevSkip + data.array.length);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const getRandomColor = () => {
+    const colors = [
+      "rgb(122, 154, 230)",
+      // 'rgb(71, 111, 178)',
+      // 'rgb(97, 138, 114)',
+      // 'rgb(68, 247, 228)',
+      // 'rgb(27, 49, 170)',
+      // 'rgb(128, 66, 132)',
+      // 'rgb(187, 185, 37)',
+      // 'rgb(82, 213, 166)',
+      // 'rgb(193, 6, 47)',
+      // 'rgb(155, 54, 24)'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
   return (
-    <div className="categories-container">
-      <h1>Super Admin</h1>
-      <Link to="/superadmin" className="home-link">
-        <i className="fas fa-home"></i>
-      </Link>
-      <div className="card-container">
-        <Link to="/superadmin/addCategory" className="category-card add-card">
-          <div className="card-icon"><i className="fas fa-plus"></i></div>
-        </Link>
-        {categories.map((category,idx) => (
-          <Link to={`/superadmin/category/${category._id}`} key={category._id+idx} className="category-card">
-            <div className="card-icon"><i className="fas fa-folder"></i></div>
-            <div className="card-title">{category.name}</div>
+    <div className="app-container">
+      <div className="simple-container">
+        <div className="card-list">
+          <Link to="/superadmin/addCategory" className="app-card card-add">
+            <i className="fas fa-plus"></i>
           </Link>
-        ))}
+          {categories.map((category) => (
+            <Link
+              to={`/superadmin/category/${category._id}`}
+              key={category._id}
+              className="app-card modern-app-card"
+              style={{
+                backgroundColor: getRandomColor(),
+                color: "#fff",
+              }}
+            >
+              {category.name}
+              <div className="card-badge" style={{ color: "var(--c-9)" }}>
+                <i className="fas fa-folder-open"></i>
+              </div>
+            </Link>
+          ))}
+        </div>
+        {!endCats && (
+          <button
+            onClick={loadCategories}
+            className="flat-btn-small btn-blue show-more-btn"
+          >
+            Afficher plus
+          </button>
+        )}
       </div>
-      {!endCats && (
-        <button onClick={loadCategories} className="load-more-btn">Load More</button>
-      )}
+      <div className="footer-copyright">
+        <div>Tous Droits Réservés © 2020 - 2024 | Ilias Al Fakir</div>
+        <div>développé pour Younes Belhouss</div>
+      </div>
     </div>
   );
 };

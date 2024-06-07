@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
-import { useAppContext } from '../components/AppContext';
 import { io } from 'socket.io-client';
-import '../assets/css/main.css';
+import { useAppContext } from './contexts/AppContext';
 
 const WebSocketManager = () => {
   const [state, setState] = useAppContext();

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../api/loginAPI';
-import { useAppContext } from '../components/AppContext';
 import '../assets/css/Styles/login.css';
+import { useAppContext } from '../components/contexts/AppContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ const Login = () => {
         setState((prevState) => ({
           ...prevState,
           session: response.data,
-          sessionRoute: route,
         }));
         navigate(`/${route}`);
       } else {

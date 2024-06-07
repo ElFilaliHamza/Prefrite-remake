@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchAlerts, fetchAlertsCount } from '../../api/alertsAPI';
 import '../../assets/css/Styles/Alerts.css'; // Ensure this file exists with the required styles
-import { useReactToPrint } from 'react-to-print';
+import { usePrintComponent } from '../../tools/printComponent';
+
 
 const Alerts = () => {
   const [alerts, setAlerts] = useState([]);
+  const [handlePrint, PrintComponent] = usePrintComponent();
+
   const [endAlerts, setEndAlerts] = useState(false);
   const [skip, setSkip] = useState(0);
   const [alertsCount, setAlertsCount] = useState(0);
@@ -17,9 +20,6 @@ const Alerts = () => {
     fetchAlertsCount().then(setAlertsCount).catch(console.error);
   }, []);
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   const fetchInitialAlerts = async () => {
     try {
@@ -45,32 +45,35 @@ const Alerts = () => {
 
   return (
     <div className="alerts-container">
-      <h1>Alerts de quantités</h1>
       <button className="print-btn" onClick={handlePrint}>Imprimer</button>
-      <div ref={componentRef}>
-        <table className="alerts-table" id='printAlerts'>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Qt Stocke</th>
-              <th>Qt Alerte</th>
-              <th>Commission</th>
-              <th>Dépassé</th>
-            </tr>
-          </thead>
-          <tbody>
-            {alerts.map((alert) => (
-              <tr className='alert-line' key={alert._id} onClick={() => navigate(`/superadmin/article/${alert._id}`)}>
-                <td>{alert.name}</td>
-                <td>{alert.qtStocke}</td>
-                <td>{alert.qtAlerte}</td>
-                <td>0</td> {/* Placeholder for commission */}
-                <td>{alert.qtStocke < alert.qtAlerte ? 'Oui' : 'Non'}</td> {/* Dépassé logic */}
+
+      <PrintComponent>
+        <h1>Alerts de quantités</h1>
+        <div ref={componentRef}>
+          <table className="alerts-table" id='printAlerts'>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Qt Stocke</th>
+                <th>Qt Alerte</th>
+                <th>Commission</th>
+                <th>Dépassé</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {alerts.map((alert) => (
+                <tr className='alert-line' key={alert._id} onClick={() => navigate(`/superadmin/article/${alert._id}`)}>
+                  <td>{alert.name}</td>
+                  <td>{alert.qtStocke}</td>
+                  <td>{alert.qtAlerte}</td>
+                  <td>0</td> {/* Placeholder for commission */}
+                  <td>{alert.qtStocke < alert.qtAlerte ? 'Oui' : 'Non'}</td> {/* Dépassé logic */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </PrintComponent>
       {!endAlerts && (
         <button className="load-more-btn" onClick={fetchMoreAlerts}>
           Afficher Plus

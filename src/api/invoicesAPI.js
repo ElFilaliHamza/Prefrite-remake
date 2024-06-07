@@ -14,15 +14,31 @@ export const fetchInvoicesDebitData = async (idClient) => {
   }
 };
 
-export const fetchInvoiceData = async (invoiceId) => {
+export const fetchInvoiceData = async (idInvoice, endpoint_route="/superadmin/debit/getInvoice") => {
   try {
     const response = await api.post(
-      "http://localhost/superadmin/debit/getInvoice",
-      { _id: invoiceId }
+      endpoint_route,
+      { _id: idInvoice }
     );
-    return response.data.invoice;
+    return response.data;
   } catch (error) {
     console.error("Error fetching invoice data:", error);
     throw error;
   }
 };
+
+
+export const fetchSellerInvoice = async (skip, filter) => {
+  try {
+    const response = await api.post('/seller/invoice/get', {
+        skip,
+        filter
+      });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching invoice data:", error);
+    throw error;
+  }
+};
+
+

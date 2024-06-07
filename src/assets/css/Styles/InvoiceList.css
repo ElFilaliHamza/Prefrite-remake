@@ -1,0 +1,82 @@
+.container {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .user-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f8f9fa;
+  }
+  
+  .user-nav-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-name-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .refresh-btn {
+    cursor: pointer;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  .invoice_filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .invoice_filter-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .inline-form {
+    display: flex;
+  }
+  
+  
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+  }
+  
+  .td-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .invoice-status-cool {
+    color: green;
+  }
+  
+  .invoice-status-uncool {
+    color: red;
+  }
+  
+  .show-more-btn {
+    cursor: pointer;
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+  }
+  

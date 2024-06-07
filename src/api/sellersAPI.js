@@ -1,3 +1,4 @@
+import config from "../config/config";
 import api from "./api";
 
 export const fetchSellersInfo = async () => {
@@ -117,34 +118,83 @@ export const fetchSellerInfo = async () => {
   }
 };
 
-
 export const checkSellerAccess = async () => {
   try {
     // Request access for seller
-    const accessResponse = await api.post('/superadmin/access', { type: 'seller' });
-    if (accessResponse.data.ok) {
-      // Create session for seller
-      const sessionResponse = await api.post('/seller/session');
-      if (sessionResponse.data.logged) {
-        // Fetch seller information
-        const infoResponse = await api.post('/seller/getAllInfo');
-        return infoResponse.data;
-      }
-    }
+    const accessResponse = await api.post("/superadmin/access", {
+      type: config.BASE_ROUTE.SELLER,
+    });
+    return accessResponse.data;
   } catch (error) {
-    console.error('Error checking seller access:', error);
+    console.error("Error checking seller access:", error);
+    throw error;
+  }
+};
+export const checkAdminAccess = async () => {
+  try {
+    // Request access for seller
+    const accessResponse = await api.post("/superadmin/access", {
+      type: config.BASE_ROUTE.ADMIN,
+    });
+    return accessResponse.data;
+  } catch (error) {
+    console.error("Error checking seller access:", error);
     throw error;
   }
 };
 
-
 export const fetchClients = async () => {
   try {
-    const response = await api.post('/seller/getAllInfo');
-    
+    const response = await api.post("/seller/getAllInfo");
+
     return response.data;
   } catch (error) {
-    console.error('Error fetching clients data', error);
+    console.error("Error fetching clients data", error);
   }
 };
+
+export const fetchCmds = async (skip = 0) => {
+  try {
+    const response = await api.post("/seller/cmd/get", {
+      skip,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching seller Cmd:", error);
+  }
+};
+
+
+export const fetchCmd = async (idCmd) => {
+  try {
+    const response = await api.post("http://localhost/seller/cmd/getOne", {
+      _id: idCmd,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching seller Cmd:", error);
+  }
+};
+
+export const fetchCategoriesAndArticles = async () => {
+  try {
+    const response = await api.post('/seller/getToCommand');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories and articles:", error);
+    return { categories: [], articles: [] };
+  }
+};
+
+
+export const addCommand = async (articles) => {
+  try {
+    const response = await api.post('/seller/addCommand', { articles });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding command:', error);
+    return { ok: false };
+  }
+};
+
 

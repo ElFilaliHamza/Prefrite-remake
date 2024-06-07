@@ -15,6 +15,7 @@ const ArticleDetail = () => {
   const [article, setArticle] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
   const [formData, setFormData] = useState({
     name: "",
     prixVente: "",
@@ -97,131 +98,188 @@ const ArticleDetail = () => {
   };
 
   return (
-    <div className="article-detail-container">
-      <div className="header">
-        <div className="back-link-container">
-          <Link
-            to={`/superadmin/category/${article.catId}`}
-            className="back-link"
+    <div className="app-container">
+      <div className="simple-container">
+        <div className="article-page">
+          {article.qtStocke <= article.qtAlerte && (
+            <div className="article-alert-message">
+              Quantité d'Alerte Atteinte
+            </div>
+          )}
+          <div className="article-controls">
+            <div
+              className="article-control article-modify"
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              <i className="fas fa-pen"></i>
+            </div>
+            {isEditing ? (
+              <div
+                className="article-control article-remove"
+                onClick={() => setIsEditing(false)}
+              >
+                <i className="fas fa-times"></i>
+              </div>
+            ) : (
+              <div
+                className="article-control article-remove"
+                onClick={() => setShowModal(true)} // Show modal on delete click
+              >
+                <i className="fas fa-trash"></i>
+              </div>
+            )}
+          </div>
+          {isEditing ? (
+            <form onSubmit={handleSave} className="article-form">
+              <div className="article-form-input">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nom"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="article-form-input">
+                <input
+                  type="number"
+                  name="prixVente"
+                  placeholder="Prix de Vente"
+                  value={formData.prixVente}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="article-form-input">
+                <input
+                  type="number"
+                  name="prixAchat"
+                  placeholder="Prix d'achat"
+                  value={formData.prixAchat}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="article-form-input">
+                <label>Quantité Stockée: {article.qtStocke}</label>
+                <input
+                  type="number"
+                  name="toAddToStock"
+                  placeholder="Ajouter au stock"
+                  value={formData.toAddToStock}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="article-form-input">
+                <input
+                  type="number"
+                  name="qtAlerte"
+                  placeholder="Qt Alerte"
+                  value={formData.qtAlerte}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="article-form-input">
+                <input type="file" name="image" onChange={handleFileChange} />
+              </div>
+              <button type="submit" className="submit-btn">
+                Sauvegarder
+              </button>
+            </form>
+          ) : (
+            <div className="article-details">
+              <div className="article-name">{article.name}</div>
+              <div className="article-img">
+                {article.img ? (
+                  <img src={article.img} alt={article.name} />
+                ) : (
+                  <div className="notfound-img">
+                    <i className="fad fa-images"></i>
+                  </div>
+                )}
+              </div>
+              <div className="details-container">
+                <div className="article-detail">
+                  <div>Quantité Stockée: </div>
+                  <div>{article.qtStocke}</div>
+                </div>
+                <div className="article-detail">
+                  <div>Quantité d'alerte: </div>
+                  <div>{article.qtAlerte}</div>
+                </div>
+                <div className="article-detail">
+                  <div>Prix Vente: </div>
+                  <div>{article.prixVente}</div>
+                </div>
+                <div className="article-detail">
+                  <div>Prix Achat: </div>
+                  <div>{article.prixAchat}</div>
+                </div>
+                <div className="article-detail">
+                  <div>Commission: </div>
+                  <div>{article.commission}</div>
+                </div>
+              </div>
+            </div>
+          )}
+          <button
+            className="flat-btn-small flat-btn-center btn-blue"
+            onClick={() => setShowHistory(!showHistory)}
           >
-            <i className="fas fa-home"></i> Categorie Correspondante
-          </Link>
-        </div>
-        <h1 className="article-title">{article.name}</h1>
-        {article.qtStocke <= article.qtAlerte && (
-          <div className="alert-quantity">Quantité d'Alerte Atteinte</div>
-        )}
-        <div className="actions">
-          <button onClick={() => setIsEditing(!isEditing)} className="edit-btn">
-            <i className="fas fa-pencil-alt"></i>
+            {showHistory
+              ? "Masquer Historique de Stocke"
+              : "Historique de Stocke"}
           </button>
-          <button onClick={handleDelete} className="delete-btn">
-            <i className="fas fa-trash"></i>
-          </button>
+          {showHistory && (
+            <div className="stock-history-container">
+              <h2>Historique de Stocke</h2>
+              <table className="stock-history-table">
+                <thead>
+                  <tr>
+                    <th>Article</th>
+                    <th>Qte</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stockHistory.map((history, index) => (
+                    <tr key={index}>
+                      <td>{history.artInfo.name}</td>
+                      <td>{history.qt}</td>
+                      <td>{new Date(history.time).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {!endHistory && (
+                <button
+                  onClick={() => fetchStockHistory(skip)}
+                  className="load-more-btn"
+                >
+                  Afficher Plus
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {isEditing ? (
-        <form onSubmit={handleSave} className="article-form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Nom"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="prixVente"
-            placeholder="Prix de Vente"
-            value={formData.prixVente}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            name="prixAchat"
-            placeholder="Prix d'achat"
-            value={formData.prixAchat}
-            onChange={handleChange}
-          />
-          <div className="stock-container">
-            <label>Quantité Stockée: {article.qtStocke}</label>
-            <input
-              type="number"
-              name="toAddToStock"
-              placeholder="Ajouter au stock"
-              value={formData.toAddToStock}
-              onChange={handleChange}
-            />
-          </div>
-          <input
-            type="number"
-            name="qtAlerte"
-            placeholder="Qt Alerte"
-            value={formData.qtAlerte}
-            onChange={handleChange}
-          />
-          <input type="file" name="image" onChange={handleFileChange} />
-          <button type="submit">Sauvegarder</button>
-        </form>
-      ) : (
-        <div className="article-info">
-          <div className="image-container">
-            {article.img ? (
-              <img src={article.img} alt={article.name} />
-            ) : (
-              <img src={defaultSVG} alt="default" />
-            )}
-          </div>
-          <p>
-            <strong>Quantité Stockée:</strong> {article.qtStocke}
-          </p>
-          <p>
-            <strong>Quantité d'alerte:</strong> {article.qtAlerte}
-          </p>
-          <p>
-            <strong>Prix Vente:</strong> {article.prixVente}
-          </p>
-          <p>
-            <strong>Prix Achat:</strong> {article.prixAchat}
-          </p>
-        </div>
-      )}
-      <button
-        className="history-btn"
-        onClick={() => setShowHistory(!showHistory)}
-      >
-        {showHistory ? "Masquer Historique de Stocke" : "Historique de Stocke"}
-      </button>
-      {showHistory && (
-        <div className="stock-history-container">
-          <h2>Historique de Stocke</h2>
-          <table className="stock-history-table">
-            <thead>
-              <tr>
-                <th>Article</th>
-                <th>Qte</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stockHistory.map((history, index) => (
-                <tr key={index}>
-                  <td>{history.artInfo.name}</td>
-                  <td>{history.qt}</td>
-                  <td>{new Date(history.time).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {!endHistory && (
-            <button
-              onClick={() => fetchStockHistory(skip)}
-              className="load-more-btn"
+      {showModal && (
+        <div className="modal">
+          <div className="modal-message">Supprimer {article.name}?</div>
+          <div className="modal-btn-group">
+            <div className="flat-btn btn-red" onClick={handleDelete}>
+              Oui
+            </div>
+            <div
+              className="flat-btn btn-blue"
+              onClick={() => setShowModal(false)}
             >
-              Afficher Plus
-            </button>
-          )}
+              Non
+            </div>
+          </div>
         </div>
       )}
     </div>

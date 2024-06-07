@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchInvoicesDebitData } from "../../api/invoicesAPI";
-import "./InvoiceDebitStatus.css"; // Import the CSS file
 import Loading from "../../components/Loading";
 import { usePrintComponent } from "../../tools/printComponent";
+import PathNav from "../../components/PathNav";
+// import "../../assets/css/Styles/SuperAdminDashboard.css"; // Adjust the path to your CSS file if necessary
 
 const InvoiceDebitStatus = () => {
   const { idClient } = useParams();
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [handlePrint, PrintComponent] = usePrintComponent();
+  const navItems = [
+    { path: '/superadmin', label: '', isHome: true, isCurr: false },
+    { path: '/superadmin/stats', label: 'Etat', isHome: false, isCurr: false },
+    { path: '/superadmin/debitStatus', label: 'Vendeurs', isHome: false, isCurr: true },
+  ];
 
   useEffect(() => {
     const getInvoicesData = async () => {
       try {
-        // console.log("Invoices");
         const data = await fetchInvoicesDebitData(idClient);
-        console.log(data);
         setInvoices(data);
         setLoading(false);
       } catch (error) {
@@ -35,57 +39,62 @@ const InvoiceDebitStatus = () => {
   const currentDate = new Date().toLocaleString();
 
   return (
-    <div className="invoice-debit-status-container">
-      <header className="invoice-debit-status-header">
-        <div className="invoice-debit-status-nav">
-          <button onClick={() => window.history.back()}>Retour</button>
+    <div className="app-container">
+      <PathNav navItems={navItems} />
+
+      <div className="simple-container">
+        <div>
+          <button
+            className="flat-btn-small flat-btn-center btn-blue"
+            onClick={handlePrint}
+          >
+            Imprimer
+          </button>
+          <div style={{ margin: "20px" }}>
+            <div className="printable-title">Credit BL</div>
+            <div className="time-interval-message">{currentDate}</div>
+            <PrintComponent>
+              <table className="table shadow">
+                <thead className="thead-dark">
+                  <tr>
+                    <th>id</th>
+                    <th>Total</th>
+                    <th>Credit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoices.map((invoice) => (
+                    <tr key={invoice._id}>
+                      <td className="td-link">
+                        <Link
+                          to={`/superadmin/debitStatusInvoice/${invoice._id}`}
+                        >
+                          {invoice._id}
+                        </Link>
+                      </td>
+                      <td className="td-link">
+                        <Link
+                          to={`/superadmin/debitStatusInvoice/${invoice._id}`}
+                        >
+                          {invoice.total.toFixed(2)}
+                        </Link>
+                      </td>
+                      <td className="td-link">
+                        <Link
+                          to={`/superadmin/debitStatusInvoice/${invoice._id}`}
+                        >
+                          {invoice.debit.toFixed(2)}
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </PrintComponent>
+          </div>
         </div>
-      </header>
-      <div className="invoice-debit-status-title">
-        <button className="print-button" onClick={handlePrint}>
-          Imprimer
-        </button>
       </div>
-      <PrintComponent>
-        <h2>CREDIT BL</h2>
-        <div className="invoice-debit-status-date">{currentDate}</div>
-        <table className="invoice-debit-status-table">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>Total</th>
-              <th>Credit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.map((invoice) => (
-              <tr key={invoice._id}>
-                <td>
-                  <Link
-                    to={`/superadmin/invoiceDebitStatus/invoiceDetail/${invoice._id}`}
-                  >
-                    {invoice._id}
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    to={`/superadmin/invoiceDebitStatus/invoiceDetail/${invoice._id}`}
-                  >
-                    {invoice.total.toFixed(2)}
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    to={`/superadmin/invoiceDebitStatus/invoiceDetail/${invoice._id}`}
-                  >
-                    {invoice.debit.toFixed(2)}
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </PrintComponent>
+
     </div>
   );
 };

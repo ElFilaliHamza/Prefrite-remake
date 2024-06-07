@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { fetchArticles } from "../../api/articlesApi";
 import { usePrintComponent } from "../../tools/printComponent";
 import "../../assets/css/Styles/EtatDeStock.css"; // Custom CSS for styling
+import Loading from "../../components/Loading";
+import PathNav from "../../components/PathNav";
 
 const EtatDeStock = () => {
   const [articles, setArticles] = useState([]);
@@ -12,7 +14,9 @@ const EtatDeStock = () => {
     benefice: 0,
   });
   const [handlePrint, PrintComponent] = usePrintComponent();
-
+  const navItems = [
+    { path: '/superadmin', label: '', isHome: true , isCurr: true},
+  ];
   useEffect(() => {
     const loadArticles = async () => {
       try {
@@ -41,11 +45,12 @@ const EtatDeStock = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
     <div className="alerts-container">
+      <PathNav navItems={navItems} />
       <button className="print-btn" onClick={handlePrint}>
         Imprimer
       </button>

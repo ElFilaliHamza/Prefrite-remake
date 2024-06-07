@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getArticles } from '../../api/articlesApi';
-import '../../assets/css/Styles/CategoryDetail.css'; // Custom CSS for styling
-import defaultSVG from '../../assets/images/default_article.svg';
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getArticles } from "../../api/articlesApi";
 
 const CategoryDetail = () => {
   const { catId } = useParams();
   const [articles, setArticles] = useState([]);
   const [skip, setSkip] = useState(0);
   const [endArticles, setEndArticles] = useState(false);
-  const [categoryName, setCategoryName] = useState(''); // Assume you have a way to get category name
+  const [categoryName, setCategoryName] = useState("Mozzarella"); // Set your default or fetched category name
   const effectRan = useRef(false);
 
   useEffect(() => {
-    // Reset articles and skip when catId changes
     if (!effectRan.current) {
       setArticles([]);
       setSkip(0);
@@ -22,50 +19,60 @@ const CategoryDetail = () => {
       effectRan.current = true;
     }
     return () => {
-       effectRan.current = true;
-    } 
+      effectRan.current = true;
+    };
   }, [catId]);
 
   const loadArticles = async () => {
     try {
       const data = await getArticles(catId, skip);
-      setArticles(prevArticles => [...prevArticles, ...data.data]);
+      setArticles((prevArticles) => [...prevArticles, ...data.data]);
       setEndArticles(data.endArticles);
-      setSkip(prevSkip => prevSkip + data.data.length);
-      // console.log(...data.data);
+      setSkip((prevSkip) => prevSkip + data.data.length);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div className="category-detail-container">
-      <h1>{categoryName}</h1>
-      <Link to="/superadmin/categories" className="back-link">
-        <i className="fas fa-home"></i>
-      </Link>
-      <div className="card-container">
-        <Link to={`/superadmin/addArticle?catId=${catId}`} className="article-card add-card">
-          <div className="card-icon"><i className="fas fa-plus"></i></div>
-        </Link>
-
-        {articles.map((article, index) => (
-          <Link to={`/superadmin/article/${article._id}`} key={article._id+index} className="article-card">
-            <div className="card-icon">
-            {article.img ? (
-                <img src={article.img} alt={article.name} />
-              ) : (
-                <img src={defaultSVG} alt="default" />
-              )}
-            </div>
-            <div className="card-title">{article.name}</div>
-            <div className="card-price">{article.prixVente} DHS</div>
-          </Link>
-        ))}
+    <div className="app-container">
+      <div className="simple-container">
+        <div className="card-list-2">
+          <a
+            className="article-card article-add"
+            href={`/superadmin/addArticle/${catId}`}
+          >
+            <i className="fas fa-plus"></i>
+          </a>
+          {articles.map((article, index) => (
+            <a
+              key={article._id + index}
+              className="article-card"
+              href={`/superadmin/article/${article._id}`}
+            >
+              <div className="article-card-name">
+                <div>{article.name}</div>
+              </div>
+              <div className="article-card-img">
+                {article.img ? (
+                  <img src={article.img} alt={article.name} />
+                ) : (
+                  <i class="fad fa-images notfound-img"></i>
+                )}
+              </div>
+              <div className="article-card-price">{article.prixVente} DHS</div>
+            </a>
+          ))}
+        </div>
+        {!endArticles && (
+          <div
+            className="flat-btn-small btn-blue show-more-btn"
+            onClick={loadArticles}
+          >
+            Afficher plus
+          </div>
+        )}
       </div>
-      {!endArticles && (
-        <button onClick={loadArticles} className="load-more-btn">Load More</button>
-      )}
     </div>
   );
 };

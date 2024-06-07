@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchInactiveClients } from "../../api/clientsAPI";
-import "../../assets/css/Styles/InactiveClients.css"; // Import the CSS file
+// import "../../assets/css/Styles/InactiveClients.css"; // Import the CSS file
 import Loading from "../../components/Loading";
 
 const InactiveClients = () => {

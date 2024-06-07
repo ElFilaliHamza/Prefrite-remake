@@ -1,8 +1,16 @@
-import React from 'react';
-import '../assets/css/main.css';
-
+import React from "react";
+import "../assets/css/main.css";
+import Header from "../components/Header";
+import { useAppContext } from "../components/contexts/AppContext";
 const PageNotFound = () => {
-  return <div>Page Not Found</div>;
+  const [state , setState] = useAppContext();
+
+  return (
+    <>
+      <Header title={`${state.session.route}`} logout_route={`${state.session.route}`} />
+      <div>Page Not Found</div>;
+    </>
+  );
 };
 
 export default PageNotFound;

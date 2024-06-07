@@ -5,9 +5,9 @@ import {
   getSellersRevenue,
 } from "../../tools/sellers";
 import { calculateDaysInterval } from "../../tools/dates";
-import "./../../assets/css/Styles/Stats.css"; // Import the CSS file
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
+import PathNav from "../../components/PathNav";
 
 const Stats = ({ startTime, endTime }) => {
   const [statistics, setStatistics] = useState({});
@@ -25,8 +25,6 @@ const Stats = ({ startTime, endTime }) => {
           calculateDaysInterval(startTime, endTime)
         );
         const sellersStats = getSellersRevenue(sellersData.sellers);
-        // console.log("sellersStats");
-        // console.log(sellersStats);
         setSellersStats(sellersStats);
         setStatistics(stats);
         setSellers(sellersData.sellers);
@@ -46,63 +44,107 @@ const Stats = ({ startTime, endTime }) => {
 
   const toggleShowSellers = () => {
     setShowSellers(!showSellers);
-    setSellersStats(sellersStats);
   };
-
+  const navItems = [
+    { path: '/superadmin', label: '', isHome: true, isCurr: true },
+    // { path: '/superadmin/status', label: 'Etat' },
+    // { path: '/superadmin/debitStatus', label: 'Vendeurs' },
+  ];
   return (
-    <div className="stats-container">
-      <div className="stats-header">
-        <h2>Rapport pour ce jour</h2>
-        <Link to={`/superadmin/debitStatus`}>
-          <div className="stats-credit">
-            <span className="">Credit</span>
-            <span className="">{statistics.credit} DHS</span>
+    <div className="app-container">
+            <PathNav navItems={navItems} />
+
+      <div className="simple-container">
+        <div>
+          <div className="filter-container">
+            <div>
+              <span className="filter-title">Debut</span>
+              <input type="date" className="filter-input" />
+            </div>
+            <div>
+              <span className="filter-title">Fin</span>
+              <input type="date" className="filter-input" />
+            </div>
           </div>
-        </Link>
+          <div className="message-flex">
+            <div className="time-interval-message">
+              <div>Paiement Dernier</div>
+            </div>
+            <div className="interval-message">Affichage de status</div>
+          </div>
+        </div>
+        <div className="super-flex-reverse">
+          <div className="card-list">
+            {showSellers && (
+              <>
+                {sellersStats.map((seller, idx) => (
+                  <Link
+                    key={seller.sellerInfo.name + idx}
+                    className={`app-card modern-app-card ${seller.statut && seller.statut < 0
+                      ? "seller-card-not-profit"
+                      : "seller-card-profit"
+                      }`}
+                    to={`/superadmin/stats/seller/${seller.sellerInfo._id}`}
+                  >
+                    <div className="card-badge">
+                      <div>
+                        <i
+                          className={`fas ${seller.statut && seller.statut < 0
+                            ? "fa-arrow-alt-to-bottom"
+                            : "fa-arrow-alt-from-bottom"
+                            }`}
+                        ></i>
+                        &nbsp;<span>{seller.statut.toFixed(2)}</span>
+                      </div>
+                    </div>
+                    {seller.sellerInfo.name}
+                  </Link>
+                ))}
+              </>
+            )}
+          </div>
+          <div
+            className="super-rapport super-rapport-loss"
+            onClick={toggleShowSellers}
+          >
+            <div className="title-2">Rapport pour ce jour</div>
+            <div className="super-rapport-item">
+              <span>Statut</span>
+              <span>{statistics.statut} DHS</span>
+            </div>
+            <div className="super-rapport-sep"></div>
+            <div className="super-rapport-item">
+              <span>Benefice</span>
+              <span>{statistics.benefice} DHS</span>
+            </div>
+            <div className="super-rapport-sep"></div>
+            <div className="super-rapport-item">
+              <span>Revenu</span>
+              <span>{statistics.revenu} DHS</span>
+            </div>
+            <div className="super-rapport-sep"></div>
+            <div className="super-rapport-item">
+              <span>My 3 Commission</span>
+              <span>{statistics.commission} DHS</span>
+            </div>
+            <div className="super-rapport-sep"></div>
+            <div className="super-rapport-item">
+              <span>Charges</span>
+              <span>{statistics.charges} DHS</span>
+            </div>
+            <div className="super-rapport-sep"></div>
+          </div>
+          <Link
+            className="super-rapport super-debit-rapport super-rapport-loss"
+            to="/superadmin/debitStatus"
+          >
+            <div className="super-rapport-item">
+              <span>Credit</span>
+              <span>{statistics.credit} DHS</span>
+            </div>
+          </Link>
+        </div>
       </div>
-      <div className="stats-body" onClick={toggleShowSellers}>
-        <div className="stats-item">
-          <span className="stats-label">Statut</span>
-          <span className="stats-value">{statistics.statut} DHS</span>
-        </div>
-        <div className="stats-item">
-          <span className="stats-label">Benefice</span>
-          <span className="stats-value">{statistics.benefice} DHS</span>
-        </div>
-        <div className="stats-item">
-          <span className="stats-label">Revenu</span>
-          <span className="stats-value">{statistics.revenu} DHS</span>
-        </div>
-        <div className="stats-item">
-          <span className="stats-label">My 3 Commission</span>
-          <span className="stats-value">{statistics.commission} DHS</span>
-        </div>
-        <div className="stats-item">
-          <span className="stats-label">Charges</span>
-          <span className="stats-value">{statistics.charges} DHS</span>
-        </div>
-      </div>
-      {showSellers && (
-        <div className="sellers-container">
-          {sellersStats.map((seller, idx) => (
-            <div
-                key={seller.sellerInfo.name + idx}
-                className={`seller-item ${
-                  seller.statut && seller.statut < 0 ? "negative" : "positive"
-                }`}
-              >
-                  <Link to={`/superadmin/stats/SellerStats/${seller.sellerInfo._id}`}>
-                <span className="seller-profit">
-                  {seller.statut && seller.statut
-                    ? seller.statut.toFixed(2)
-                    : 0}
-                </span>
-                <span className="seller-name">{seller.sellerInfo.name}</span>
-            </Link>
-              </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

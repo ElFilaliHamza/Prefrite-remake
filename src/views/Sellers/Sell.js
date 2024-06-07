@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "../../assets/css/Styles/Sell.css";
 import { Link } from "react-router-dom";
-import { useSellerData } from "../../components/SellerDataContext";
+import { useSellerData } from "../../components/contexts/SellerContext";
+// import { usePanierContext } from "../../components/contexts/SellContext";
 
 const Sell = () => {
   const sellerData = useSellerData();
+  // const { panier, setPanier } = usePanierContext(); // Use the Panier context
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
