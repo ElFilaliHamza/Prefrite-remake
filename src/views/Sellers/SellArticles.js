@@ -5,13 +5,12 @@ import { useSellerData } from "../../components/contexts/SellerContext";
 
 const SellArticles = () => {
   const { idCat } = useParams();
-  const { addToPanier } = usePanierContext(); // Use the Panier context
+  const { panier, addToPanier, total, setTotal } = usePanierContext(); // Use the Panier context
   const sellerData = useSellerData(); // Use the Seller context
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [quantities, setQuantities] = useState({});
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (sellerData && sellerData.artsNcats && sellerData.artsNcats.arts) {
@@ -41,7 +40,9 @@ const SellArticles = () => {
       const quantity = quantities[article._id] || 0;
       return acc + quantity * article.prixVente;
     }, 0);
-    setTotal(newTotal);
+    setTotal((oldTotal)=>(
+      oldTotal + newTotal 
+    ));
   };
 
   const filteredArticles = articles.filter((article) =>
@@ -55,7 +56,7 @@ const SellArticles = () => {
         addToPanier({ ...article, qt: quantity });
       }
     });
-    navigate("/sell/checkout");
+    navigate(`/seller/sell/client/${panier.clientId}`);
   };
 
   if (!articles.length) {
@@ -174,7 +175,7 @@ const SellArticles = () => {
               <div className="button-row d-flex mt-4">
                 <button
                   className="flat-btn-small btn-red"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate('/')}
                 >
                   Annuler
                 </button>

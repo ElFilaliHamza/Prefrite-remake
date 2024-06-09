@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSellerData } from "../../components/contexts/SellerContext";
+import { usePanierContext } from "../../components/contexts/SellContext";
 // import { usePanierContext } from "../../components/contexts/SellContext";
 
 const Sell = () => {
   const sellerData = useSellerData();
-  // const { panier, setPanier } = usePanierContext(); // Use the Panier context
+  const { panier, setPanier } = usePanierContext(); // Use the Panier context
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const updatePanier = (clientId) => {
+    setPanier((prevPanier) => ({
+      ...prevPanier,
+      clientId,
+    }));
+  };
   useEffect(() => {
     if (sellerData) {
       setClients(sellerData.clients);
@@ -84,6 +90,7 @@ const Sell = () => {
                       key={client._id}
                       className="seller-client-item"
                       to={`/seller/sell/client/${client._id}`}
+                      onClick={updatePanier(client._id)}
                     >
                       <div className="card-body">
                         <h5 className="card-title">{client.name}</h5>

@@ -2,9 +2,11 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import "../../assets/css/Styles/Sell.css";
 import { useSellerData } from "../../components/contexts/SellerContext";
+import { usePanierContext } from "../../components/contexts/SellContext";
 
 const SellCats = () => {
   const { idClient } = useParams();
+  const { total, setPanier } = usePanierContext();
   const sellerData = useSellerData();
   const categories = sellerData.artsNcats.cats;
   const client = sellerData.clients.find((client) => client._id === idClient);
@@ -81,16 +83,16 @@ const SellCats = () => {
                         <strong>Total: </strong>
                       </td>
                       <td className="col">
-                        <strong>0 DHS</strong>
+                        <strong>{total.toFixed(2)}</strong>
                       </td>
                     </tr>
                   </tbody>
                 </table>
                 <div className="button-row d-flex mt-4">
                   <button className="flat-btn-small btn-red">Annuler</button>
-                  <button className="ml-auto flat-btn-small btn-blue">
+                  <Link className="ml-auto flat-btn-small btn-blue" to={`/seller/sell/payer`}>
                     Terminé
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

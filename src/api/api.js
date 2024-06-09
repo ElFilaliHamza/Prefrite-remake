@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:80', // Adjusted to match your server's port
+    baseURL: process.env.REACT_APP_API_URL, // Adjusted to match your server's port
     withCredentials: true
   });
   

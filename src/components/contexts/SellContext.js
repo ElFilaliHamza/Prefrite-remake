@@ -8,6 +8,7 @@ export const SellProvider = ({ children }) => {
     arts: [],
     payment: 0,
   });
+  const [total, setTotal] = useState(0);
 
   const addToPanier = (art) => {
     setPanier((prevPanier) => {
@@ -41,7 +42,7 @@ export const SellProvider = ({ children }) => {
 
   return (
     <SellContext.Provider
-      value={{ panier, setPanier, addToPanier, removeFromPanier, clearPanier }}
+      value={{ panier, setPanier, addToPanier, removeFromPanier, clearPanier, total, setTotal }}
     >
       {children}
     </SellContext.Provider>

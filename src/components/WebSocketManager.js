@@ -7,7 +7,7 @@ const WebSocketManager = () => {
   const socketRef = useRef(null);
 
   const connectSocketIO = () => {
-    socketRef.current = io("http://localhost:80", {
+    socketRef.current = io(process.env.REACT_APP_API_URL, {
       withCredentials: true,
       transports: ['websocket', 'polling'],
     });

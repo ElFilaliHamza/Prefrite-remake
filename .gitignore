@@ -26,3 +26,5 @@ extra-tools
 node_modules
 rand
 
+.aider*
+
