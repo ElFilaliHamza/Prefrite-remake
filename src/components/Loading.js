@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/css/main.css';
+// import '../assets/css/main.css';
 
 const Loading = () => (
   <div className="modern-loader-ret">

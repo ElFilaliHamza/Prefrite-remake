@@ -63,10 +63,10 @@ export const fetchSellerData = async (_id, startTime, endTime) => {
 //   return data;
 // };
 
-export const fetchSellersDebitData = async () => {
+export const fetchSellersDebitData = async (endpoint_route = "/superadmin/debit/getSellers") => {
   try {
     const response = await api.post(
-      "http://localhost/superadmin/debit/getSellers"
+      endpoint_route
     );
     return response.data.sellers;
   } catch (error) {

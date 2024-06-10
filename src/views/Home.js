@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config/config';
-import '../assets/css/main.css';
+// import '../assets/css/main.css';
 
 const Home = () => {
   return (

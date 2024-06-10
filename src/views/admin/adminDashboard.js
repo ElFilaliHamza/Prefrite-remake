@@ -1,5 +1,5 @@
 import React from "react";
-// import "../../assets/css/Styles/SuperAdminDashboard.css"; // Adjust the path to your CSS file if necessary
+import "../../assets/css/Styles/AdminDashboard.css"; // Adjust the path to your CSS file if necessary
 
 const colors = ["#2b2d42", "#ff6f59", "#784f41", "#8e5572", "#f8c630", "#23967f", "#724e91"];
 

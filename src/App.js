@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./assets/css/styles.css";
 import "./assets/css/main.css";
+import "./assets/css/styles.css";
 import WebSocketManager from "./components/WebSocketManager";
 import SuperAdminRoutes from "./routes/superadminRoutes";
 import SellerRoutes from "./routes/sellerRoutes";

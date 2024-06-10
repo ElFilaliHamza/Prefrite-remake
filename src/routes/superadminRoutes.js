@@ -7,16 +7,11 @@ import CategoryDetail from "../views/SuperAdmin/CategoryDetail";
 import Alerts from "../views/SuperAdmin/Alerts";
 import ArticleDetail from "../views/SuperAdmin/ArticleDetail";
 import AddArticle from "../views/SuperAdmin/AddArticle";
-import DebitStatus from "../views/SuperAdmin/DebitStatus";
-import DebitStatusDetail from "../views/SuperAdmin/DebitStatusDetail";
 import AccountManagement from "../views/SuperAdmin/AccountManagement";
 import PaymentHistory from "../views/SuperAdmin/PaymentHistory";
 import StockStatus from "../views/SuperAdmin/StockStatus";
 import LiveSellers from "../views/SuperAdmin/LiveSellers";
-import OffClients from "../views/SuperAdmin/InactiveClients";
 import Stats from "../views/SuperAdmin/Stats";
-import ClientDebitStatus from "../views/SuperAdmin/ClientDebitStatus";
-import InvoiceDebitStatus from "../views/SuperAdmin/InvoiceDebitStatus";
 import InvoiceDetail from "../views/SuperAdmin/InvoiceDetail";
 import SellerStats from "../views/SuperAdmin/SellerStats";
 import Accounts from "../views/SuperAdmin/Accounts";
@@ -26,6 +21,10 @@ import Status from "../views/SuperAdmin/Status";
 import EtatDeStock from "../views/SuperAdmin/EtatDeStock";
 import Header from "../components/Header";
 import { SuperDataProvider } from "../components/contexts/SuperContext";
+import config from "../config/config";
+import DebitStatus from "../views/admin/DebitStatus";
+import ClientDebitStatus from "../views/admin/ClientDebitStatus";
+import InvoiceDebitStatus from "../views/admin/InvoiceDebitStatus";
 
 const SuperAdminRoutes = () => {
   
@@ -44,12 +43,18 @@ const SuperAdminRoutes = () => {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/article/:idArt" element={<ArticleDetail />} />
         <Route path="/addArticle/:catId" element={<AddArticle />} />
-        <Route path="/debitStatus" element={<DebitStatus />} />
+        {/* <Route path="/debitStatus" element={<DebitStatus />} /> */}
+        {/* <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} /> */}
         <Route path="/stockStatus" element={<EtatDeStock />} />
-        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} />
-        <Route
+        {/* <Route
           path="/invoiceDebitStatus/:idClient"
           element={<InvoiceDebitStatus />}
+        /> */}
+        <Route path="/debitStatus" element={<DebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>} />
+        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>} />
+        <Route
+          path="/invoiceDebitStatus/:idClient"
+          element={<InvoiceDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>}
         />
         <Route
           path="/debitStatusInvoice/:idInvoice"

@@ -1,9 +1,9 @@
 import api from "./api"; // Ensure the api instance is set up correctly
 
-export const fetchClientsDebitData = async (sellerId) => {
+export const fetchClientsDebitData = async (sellerId, endpoint_route="/superadmin/debit/getClients") => {
   try {
     const response = await api.post(
-      "http://localhost/superadmin/debit/getClients",
+      endpoint_route,
       { _id: sellerId }
     );
     return response.data.clients;

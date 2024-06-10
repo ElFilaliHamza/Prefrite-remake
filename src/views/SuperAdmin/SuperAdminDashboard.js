@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchAlertsCount } from '../../api/alertsAPI';
 // import { checkSellerAccess } from '../../api/sellersAPI';
-import '../../assets/css/main.css'; // Custom CSS for styling
+// import '../../assets/css/main.css'; // Custom CSS for styling
 import PathNav from '../../components/PathNav';
 
 const SuperAdminDashboard = () => {
@@ -43,7 +43,7 @@ const SuperAdminDashboard = () => {
             Comptes
             <div className="card-badge"><i className="fas fa-envelope"></i></div>
           </Link>
-          <Link className="app-card modern-app-card card-c-5" to="/superadmin/offClients">
+          <Link className="app-card modern-app-card card-c-5" to="/superadmin/inactiveClients">
             Clients Inactives
             <div className="card-badge"><i className="fas fa-star"></i></div>
           </Link>

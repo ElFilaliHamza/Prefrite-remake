@@ -3,7 +3,7 @@ import { useAppContext } from '../components/AppContext';
 import api from '../api/api';
 import Loading from '../components/Loading';
 import { Navigate } from 'react-router-dom';
-import '../assets/css/main.css';
+// import '../assets/css/main.css';
 import config from '../config/config';
 
 const Invoices = () => {

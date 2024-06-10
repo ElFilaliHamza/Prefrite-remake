@@ -6,7 +6,7 @@ import ClientDebit from '../ClientDebit';
 import Invoices from '../Invoices';
 import InvoiceDetail from '../InvoiceDetail';
 import SellerState from './SellerState';
-import '../assets/css/main.css';
+// import '../assets/css/main.css';
 
 const Seller = () => {
   let { path } = useMatch();
