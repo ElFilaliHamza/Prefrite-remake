@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api/api';
 import Loading from '../../components/Loading';
-import { fetchAdminCommands } from '../../api/adminAPI';
+import { fetchRouteCommands } from '../../api/adminAPI';
 
-const CommandsHistory = () => {
+const CommandsHistory = ({ route }) => {
     const [loading, setLoading] = useState(true);
     const [commands, setCommands] = useState([]);
     const [sellers, setSellers] = useState([]);
@@ -17,7 +17,8 @@ const CommandsHistory = () => {
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
-                const data = await fetchAdminCommands({
+                const data = await fetchRouteCommands({
+                    route,
                     fullfiled: true,
                     getSellers: true,
                 });
@@ -46,7 +47,8 @@ const CommandsHistory = () => {
 
     const loadMoreCommands = async () => {
         try {
-            const data = await fetchAdminCommands({
+            const data = await fetchRouteCommands({
+                route,
                 skip: skip + limit,
                 fullfiled: true,
                 filter: {
@@ -68,7 +70,8 @@ const CommandsHistory = () => {
 
     const getNewCommands = async () => {
         try {
-            const data = await fetchAdminCommands({
+            const data = await fetchRouteCommands({
+                route,
                 fullfiled: true,
                 filter: {
                     startTime: startDate,
@@ -138,13 +141,13 @@ const CommandsHistory = () => {
                             {commands.map(command => (
                                 <tr key={command._id}>
                                     <td className="td-link">
-                                        <a href={`/admin/command/${command._id}`}>{command.sellerInfo.name}</a>
+                                        <a href={`/${route}/command/${command._id}`}>{command.sellerInfo.name}</a>
                                     </td>
                                     <td className="td-link">
-                                        <a href={`/admin/command/${command._id}`}>{new Date(command.time).toLocaleString()}</a>
+                                        <a href={`/${route}/command/${command._id}`}>{new Date(command.time).toLocaleString()}</a>
                                     </td>
                                     <td className="td-link">
-                                        <a href={`/admin/command/${command._id}`}>{command.artCount}</a>
+                                        <a href={`/${route}/command/${command._id}`}>{command.artCount}</a>
                                     </td>
                                 </tr>
                             ))}

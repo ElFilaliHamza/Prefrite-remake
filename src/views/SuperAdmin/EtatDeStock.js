@@ -15,7 +15,7 @@ const EtatDeStock = () => {
   });
   const [handlePrint, PrintComponent] = usePrintComponent();
   const navItems = [
-    { path: '/superadmin', label: '', isHome: true , isCurr: true},
+    { path: '/superadmin', label: '', isHome: true, isCurr: true },
   ];
   useEffect(() => {
     const loadArticles = async () => {

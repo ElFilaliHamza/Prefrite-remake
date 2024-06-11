@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import Loading from '../../components/Loading';
+import QRCode from 'qrcode';
+import { usePrintComponent } from '../../tools/printComponent';
+import { fetchOneClient } from '../../api/magasinAPI';
 
 const ClientDetail = () => {
+    const [handlePrint, PrintComponent] = usePrintComponent();
     const { clientId } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -11,6 +15,7 @@ const ClientDetail = () => {
     const [editMode, setEditMode] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [sellers, setSellers] = useState([]);
+    const canvasRef = useRef(null);
     const [formData, setFormData] = useState({
         ice: '',
         name: '',
@@ -21,16 +26,16 @@ const ClientDetail = () => {
     useEffect(() => {
         const fetchClient = async () => {
             try {
-                const response = await api.post('/admin/clients/getOne', { _id: clientId });
-                if (response.data.error) {
-                    console.error('Error fetching client data:', response.data);
+                const data = await fetchOneClient({ clientId: clientId });
+                if (data.error) {
+                    console.error('Error fetching client data:', data);
                 } else {
-                    setClient(response.data);
+                    setClient(data);
                     setFormData({
-                        ice: response.data.ice,
-                        name: response.data.name,
-                        plafon: response.data.plafon,
-                        sellerId: response.data.sellerId,
+                        ice: data.ice,
+                        name: data.name,
+                        plafon: data.plafon,
+                        sellerId: data.sellerId,
                     });
                 }
                 setLoading(false);
@@ -56,6 +61,15 @@ const ClientDetail = () => {
         fetchClient();
         fetchSellers();
     }, [clientId]);
+
+    useEffect(() => {
+        if (client && canvasRef.current) {
+            // Generate QR code
+            QRCode.toCanvas(canvasRef.current, client.ice, { width: 400, height: 400 }, (error) => {
+                if (error) console.error('Error generating QR code:', error);
+            });
+        }
+    }, [client]);
 
     const handleEdit = () => {
         setEditMode(true);
@@ -86,10 +100,6 @@ const ClientDetail = () => {
         } catch (error) {
             console.error('Error deleting client:', error);
         }
-    };
-
-    const handlePrint = () => {
-        window.print();
     };
 
     const handleChange = (e) => {
@@ -125,54 +135,68 @@ const ClientDetail = () => {
                             <div className="flat-btn-small btn-blue" onClick={handlePrint}><span>Imprimer</span><i className="far fa-print"></i></div>
                         </div>
                         <div className="client-info">
-                            <div className="client-title">Carte Client</div>
-                            <div className="client-info-line">
-                                <div className="client-info-title">ICE: </div>
-                                <div className="client-info-content">
-                                    {editMode ? (
-                                        <div><input name="ice" value={formData.ice} onChange={handleChange} /></div>
-                                    ) : (
-                                        client.ice
-                                    )}
+                            <PrintComponent>
+                                <div className="client-title">Carte Client</div>
+                                <div className="client-info-line">
+                                    <div className="client-info-title">ICE: </div>
+                                    <div className="client-info-content">
+                                        {editMode ? (
+                                            <div><input name="ice" value={formData.ice} onChange={handleChange} /></div>
+                                        ) : (
+                                            client.ice
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="client-info-line">
-                                <div className="client-info-title">Nom: </div>
-                                <div className="client-info-content">
-                                    {editMode ? (
-                                        <div><input name="name" value={formData.name} onChange={handleChange} /></div>
-                                    ) : (
-                                        client.name
-                                    )}
+                                <div className="client-info-line">
+                                    <div className="client-info-title">Nom: </div>
+                                    <div className="client-info-content">
+                                        {editMode ? (
+                                            <div><input name="name" value={formData.name} onChange={handleChange} /></div>
+                                        ) : (
+                                            client.name
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="client-info-line">
-                                <div className="client-info-title">Plafond: </div>
-                                <div className="client-info-content">
-                                    {editMode ? (
-                                        <div><input type="number" step="any" name="plafon" value={formData.plafon} onChange={handleChange} /></div>
-                                    ) : (
-                                        client.plafon
-                                    )}
+                                <div className="client-info-line">
+                                    <div className="client-info-title">Plafond: </div>
+                                    <div className="client-info-content">
+                                        {editMode ? (
+                                            <div><input type="number" step="any" name="plafon" value={formData.plafon} onChange={handleChange} /></div>
+                                        ) : (
+                                            client.plafon
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="client-info-line">
-                                <div className="client-info-title">Vendeur: </div>
-                                <div className="client-info-content">
-                                    {editMode ? (
-                                        <div>
-                                            <select name="sellerId" value={formData.sellerId} onChange={handleChange}>
-                                                <option value=""></option>
-                                                {sellers.map(seller => (
-                                                    <option key={seller._id} value={seller._id}>{seller.name}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    ) : (
-                                        client.sellerInfo.name
-                                    )}
+                                <div className="client-info-line">
+                                    <div className="client-info-title">Vendeur: </div>
+                                    <div className="client-info-content">
+                                        {editMode ? (
+                                            <div>
+                                                <select name="sellerId" value={formData.sellerId} onChange={handleChange}>
+                                                    <option value=""></option>
+                                                    {sellers.map(seller => (
+                                                        <option key={seller._id} value={seller._id}>{seller.name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        ) : (
+                                            client.sellerInfo.name
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+                                <canvas
+                                    ref={canvasRef}
+                                    height="825"
+                                    width="825"
+                                    style={{
+                                        height: "30vw",
+                                        width: "30vw",
+                                        position: "relative",
+                                        left: "50%",
+                                        transform: "translate(-50%, 50px)"
+                                    }}>
+                                </canvas>
+                            </PrintComponent>
                         </div>
                         <div className="client-actions client-actions-bottom">
                             {editMode ? (

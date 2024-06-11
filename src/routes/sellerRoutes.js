@@ -11,6 +11,7 @@ import Commandes from "../views/Sellers/Commandes";
 import CommandDetail from "../views/Sellers/CommandDetail";
 import AddCmdRoutes from "../components/AddCmdRoutes";
 import SellRoutes from "./sellRoutes";
+import "../assets/css/Styles/Styles.css";
 
 const SellerRoutes = () => {
   const sellerData = useSellerData();

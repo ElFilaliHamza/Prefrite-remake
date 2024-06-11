@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSellerData } from "../../components/contexts/SellerContext";
-import { usePanierContext } from "../../components/contexts/SellContext";
-// import { usePanierContext } from "../../components/contexts/SellContext";
+import { useSellContext } from "../../components/contexts/SellContext";
 
 const Sell = () => {
   const sellerData = useSellerData();
-  const { panier, setPanier } = usePanierContext(); // Use the Panier context
+  const { panier, setPanier } = useSellContext(); // Use the Panier context
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const updatePanier = (clientId) => {

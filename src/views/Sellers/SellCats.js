@@ -2,11 +2,11 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import "../../assets/css/Styles/Sell.css";
 import { useSellerData } from "../../components/contexts/SellerContext";
-import { usePanierContext } from "../../components/contexts/SellContext";
+import { useSellContext } from "../../components/contexts/SellContext";
 
 const SellCats = () => {
   const { idClient } = useParams();
-  const { total, setPanier } = usePanierContext();
+  const { total, setPanier } = useSellContext();
   const sellerData = useSellerData();
   const categories = sellerData.artsNcats.cats;
   const client = sellerData.clients.find((client) => client._id === idClient);
@@ -63,7 +63,7 @@ const SellCats = () => {
                 Vente au {client ? client.name : "client inconnu"}
               </h3>
               <div className="multisteps-form__content">
-                <div className="card-list">
+                <div className="card-list black-card-text">
                   {categories.map((category) => (
                     <Link
                       key={category._id}

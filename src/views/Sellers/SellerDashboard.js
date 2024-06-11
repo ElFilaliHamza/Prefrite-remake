@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSellerData } from "../../components/contexts/SellerContext";
-import {formatNumber} from "../../tools/global";
+import { formatNumber } from "../../tools/global";
 
 const SellerDashboard = () => {
   const sellerData = useSellerData();
@@ -20,7 +20,7 @@ const SellerDashboard = () => {
     leftToSell: 0,
   };
 
-  
+
   return (
     <div className="content">
       <div className="content__inner">
@@ -28,7 +28,7 @@ const SellerDashboard = () => {
           <div className="multisteps-form">
             <div className="">
               <div className="seller-dashboard">
-                <div className="card-list">
+                <div className="card-list black-card-text">
                   <Link className="small-app-card" to="/seller/sell">
                     <span>Vente</span>&nbsp;
                     <i

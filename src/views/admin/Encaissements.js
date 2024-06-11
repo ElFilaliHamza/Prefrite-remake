@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api/api'; // Assuming this is where your axios instance is defined
+import api from '../../api/api';
 import Loading from '../../components/Loading';
 import { formatNumber } from '../../tools/global';
 

@@ -1,8 +1,15 @@
 @font-face {
-    font-family: 'company-name';
-    src: url('/public/fonts/company-name.ttf') format('truetype');
-  }
+  font-family: "company-name";
+  src: url("/public/fonts/company-name.ttf") format("truetype");
+}
 
-  .card-list-cmds{
-    color: black;
-  }
+/* .card-list-cmds {
+  color: black;
+}
+.card-list-seller {
+  color: black !important;
+} */
+
+.black-card-text {
+  color: black !important;
+}

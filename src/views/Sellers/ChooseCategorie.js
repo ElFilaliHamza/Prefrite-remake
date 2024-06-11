@@ -58,7 +58,7 @@ const ChooseCategorie = () => {
                 {!showPanier && !success && (
                   <>
                     <h3 className="texttitle">Choisir une Categorie</h3>
-                    <div className="card-list">
+                    <div className="card-list black-card-text">
                       {categories.map((category) => (
                         <Link
                           key={category._id}

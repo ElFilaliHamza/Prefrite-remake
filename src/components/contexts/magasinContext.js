@@ -6,20 +6,20 @@ import Loading from "../Loading";
 import { useAppContext } from "./AppContext";
 import { checkRouteSession } from "../../api/loginAPI";
 
-const MagazinContext = createContext();
+const MagasinContext = createContext();
 
-export const useMagazinData = () => useContext(MagazinContext);
+export const useMagasinData = () => useContext(MagasinContext);
 
-export const MagazinDataProvider = ({ children }) => {
+export const MagasinDataProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [adminData, setMagazinData] = useState(null);
+  const [adminData, setMagasinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [state, setState] = useAppContext();
 
-  const getMagazinData = async () => {
+  const getMagasinData = async () => {
     try {
       // const data = await fetchSellerInfo();
-      setMagazinData(null);
+      setMagasinData(null);
     } catch (error) {
       console.error("Error fetching seller info:", error);
     }
@@ -30,14 +30,14 @@ export const MagazinDataProvider = ({ children }) => {
       if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
         const access = await checkAdminAccess();
         if (access.ok) {
-          await getMagazinData();
+          await getMagasinData();
         } else {
           navigate("/" + state.session.route);
         }
       } else {
         const session_data = await checkRouteSession(config.BASE_ROUTE.MAGASIN);
         if (session_data.logged) {
-          await getMagazinData();
+          await getMagasinData();
         } else {
           navigate("/login");
         }
@@ -53,6 +53,6 @@ export const MagazinDataProvider = ({ children }) => {
   }
 
   return (
-    <MagazinContext.Provider value={adminData}>{children}</MagazinContext.Provider>
+    <MagasinContext.Provider value={adminData}>{children}</MagasinContext.Provider>
   );
 };

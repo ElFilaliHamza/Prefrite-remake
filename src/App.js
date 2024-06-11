@@ -10,6 +10,7 @@ import { AppProvider } from "./components/contexts/AppContext";
 import PageNotFound from "./views/PageNotFound";
 import AdminRoutes from "./routes/adminRoutes";
 import { SellerDataProvider } from "./components/contexts/SellerContext";
+import MagasinRoutes from "./routes/magasinRoutes";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/superadmin/*" element={<SuperAdminRoutes />} />
           <Route path="/admin/*" element={<AdminRoutes />} />
+          <Route path="/magasin/*" element={<MagasinRoutes />} />
           <Route
             path="/seller/*"
             element={

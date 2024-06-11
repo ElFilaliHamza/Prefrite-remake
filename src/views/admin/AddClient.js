@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api/api'; // Your axios instance
+import api from '../../api/api'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchAdminSellers } from '../../api/adminAPI';
 import Loading from '../../components/Loading';

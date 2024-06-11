@@ -49,4 +49,4 @@ export const SellProvider = ({ children }) => {
   );
 };
 
-export const usePanierContext = () => useContext(SellContext);
+export const useSellContext = () => useContext(SellContext);

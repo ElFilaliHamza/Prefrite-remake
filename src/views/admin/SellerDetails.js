@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchSellerDetails, fetchMoreArticles, handPayement, updateSellerArticle } from '../../api/adminAPI';
 import Loading from '../../components/Loading';
 import StatsChart from '../../components/StatsChart';
-import api from '../../api/api'; // Assuming this is where your axios instance is defined
+import api from '../../api/api'; 
 import { formatNumber } from '../../tools/global';
 
 const SellerDetails = () => {

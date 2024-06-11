@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePanierContext } from "../../components/contexts/SellContext";
+import { useSellContext } from "../../components/contexts/SellContext";
 import { useSellerData } from "../../components/contexts/SellerContext";
 import Loading from "../../components/Loading";
 import { buyArts } from "../../api/payments";
 import { formatNumber } from "../../tools/global";
 
 const SellPayer = () => {
-  const { panier, setPanier } = usePanierContext();
+  const { panier, setPanier } = useSellContext();
   const sellerData = useSellerData();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

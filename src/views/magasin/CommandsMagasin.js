@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
-import { fetchAdminCommands } from '../../api/adminAPI';
 import '../../assets/css/Styles/Styles.css';
+import { fetchMagasinCommands } from '../../api/magasinAPI';
 
-const CommandsAdmin = () => {
+const CommandsMagasin = ({route}) => {
     const [loading, setLoading] = useState(true);
     const [commands, setCommands] = useState([]);
     const [skip, setSkip] = useState(0);
@@ -13,7 +13,7 @@ const CommandsAdmin = () => {
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
-                const data = await fetchAdminCommands();
+                const data = await fetchMagasinCommands();
                 if (data) {
                     setCommands(data.commands);
                     setEndCommands(data.endCmds);
@@ -32,7 +32,7 @@ const CommandsAdmin = () => {
 
     const loadMoreCommands = async () => {
         try {
-            const data = await fetchAdminCommands({ skip: skip + limit });
+            const data = await fetchMagasinCommands({ skip: skip + limit });
             if (data.commands.length) {
                 setCommands((prevCommands) => [...prevCommands, ...data.commands]);
                 setSkip((prevSkip) => prevSkip + data.commands.length);
@@ -54,11 +54,11 @@ const CommandsAdmin = () => {
             <div className="user-home">
                 <div className="simple-container">
                     <div className="path-nav">
-                        <a className="path-btn path-btn-current" href="/admin"><i className="fas fa-home"></i></a>
+                        <a className="path-btn path-btn-current" href={`${route}`}><i className="fas fa-home"></i></a>
                     </div>
                     <div className="card-list black-card-text">
                         {commands.map((command) => (
-                            <a key={command._id} className="app-card" href={`/admin/command/${command._id}`}>
+                            <a key={command._id} className="app-card" href={`/${route}/command/${command._id}`}>
                                 {command.sellerInfo.name}
                                 <div className={`card-status ${command.artCount > 0 ? 'card-wait-status' : ''}`}>{command.artCount}</div>
                             </a>
@@ -75,4 +75,4 @@ const CommandsAdmin = () => {
     );
 };
 
-export default CommandsAdmin;
+export default CommandsMagasin;

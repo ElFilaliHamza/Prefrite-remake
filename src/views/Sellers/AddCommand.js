@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { usePanierContext } from "../../components/contexts/SellContext";
+import { usePanier } from "../../components/contexts/PanierContext";
 
 const AddCommand = () => {
   const { idCat } = useParams();
-  const { articles, addArticleToPanier, loading } = usePanierContext();
+  const { addArticleToPanier, loading, articles } = usePanier();
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [articleQuantities, setArticleQuantities] = useState({});
 

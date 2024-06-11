@@ -30,7 +30,7 @@ const SellersList = () => {
     <div className="app-container">
       <div className="user-home">
         <div className="simple-container">
-          <div className="card-list card-list-sellers">
+          <div className="card-list black-card-text">
             {sellers.map(seller => (
               <a key={seller._id} className="app-card" href={`/admin/vendeur/${seller._id}`}>{seller.name}</a>
             ))}

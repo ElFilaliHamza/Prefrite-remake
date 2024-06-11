@@ -9,7 +9,6 @@ import ArticleDetail from "../views/SuperAdmin/ArticleDetail";
 import AddArticle from "../views/SuperAdmin/AddArticle";
 import AccountManagement from "../views/SuperAdmin/AccountManagement";
 import PaymentHistory from "../views/SuperAdmin/PaymentHistory";
-import StockStatus from "../views/SuperAdmin/StockStatus";
 import LiveSellers from "../views/SuperAdmin/LiveSellers";
 import Stats from "../views/SuperAdmin/Stats";
 import InvoiceDetail from "../views/SuperAdmin/InvoiceDetail";
@@ -62,7 +61,6 @@ const SuperAdminRoutes = () => {
         />
         <Route path="/accountManagement" element={<AccountManagement />} />
         <Route path="/payments" element={<PaymentHistory />} />
-        <Route path="/stockStatus" element={<StockStatus />} />
         <Route path="/liveSellers" element={<LiveSellers />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/stats/SellerStats/:idSeller" element={<SellerStats />} />

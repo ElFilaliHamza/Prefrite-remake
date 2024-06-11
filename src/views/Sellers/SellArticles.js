@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { usePanierContext } from "../../components/contexts/SellContext";
+import { useSellContext } from "../../components/contexts/SellContext";
 import { useSellerData } from "../../components/contexts/SellerContext";
 
 const SellArticles = () => {
   const { idCat } = useParams();
-  const { panier, addToPanier, total, setTotal } = usePanierContext(); // Use the Panier context
+  const { panier, addToPanier, total, setTotal } = useSellContext(); // Use the Panier context
   const sellerData = useSellerData(); // Use the Seller context
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);

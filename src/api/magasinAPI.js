@@ -1,19 +1,19 @@
 import api from "./api";
 
 
-export const fetchAdminSellers = async () => {
+export const fetchMagasinSellers = async () => {
     try {
-        const response = await api.post('/admin/vendeurs/get');
+        const response = await api.post('/magasin/vendeurs/get');
         return response.data;
     } catch (error) {
-        console.error('Error fetching admin sellers:', error);
+        console.error('Error fetching magasin sellers:', error);
         throw error;
     }
 };
 
 export const fetchSellerDetails = async (id) => {
     try {
-        const response = await api.post('/admin/vendeurs/getOne', { _id: id });
+        const response = await api.post('/magasin/vendeurs/getOne', { _id: id });
         return response.data;
     } catch (error) {
         console.error('Error fetching seller details:', error);
@@ -23,7 +23,7 @@ export const fetchSellerDetails = async (id) => {
 
 export const fetchMoreArticles = async ({ _id, skip, limit }) => {
     try {
-        const response = await api.post('/admin/vendeurs/getArticles', { _id, skip, limit });
+        const response = await api.post('/magasin/vendeurs/getArticles', { _id, skip, limit });
         return response.data;
     } catch (error) {
         console.error('Error fetching more articles:', error);
@@ -33,7 +33,7 @@ export const fetchMoreArticles = async ({ _id, skip, limit }) => {
 
 export const handPayement = async ({ idSeller, payment }) => {
     try {
-        const response = await api.post('/admin/vendeurs/handPayment', {
+        const response = await api.post('/magasin/vendeurs/handPayment', {
             _id: idSeller,
             payment: parseFloat(payment)
         });
@@ -46,7 +46,7 @@ export const handPayement = async ({ idSeller, payment }) => {
 
 export const updateSellerArticle = async (idSeller, editArticleId, editArticleQty) => {
     try {
-        const response = await api.post('/admin/vendeurs/updateArticle', {
+        const response = await api.post('/magasin/vendeurs/updateArticle', {
             sellerId: idSeller,
             _id: editArticleId,
             qt: parseFloat(editArticleQty)
@@ -60,7 +60,7 @@ export const updateSellerArticle = async (idSeller, editArticleId, editArticleQt
 
 export const fetchClients = async (skip, search, sellerId) => {
     try {
-        const response = await api.post('/admin/clients/get', {
+        const response = await api.post('/magasin/clients/get', {
             skip,
             search,
             sellerId
@@ -70,49 +70,27 @@ export const fetchClients = async (skip, search, sellerId) => {
         console.error('Error fetching clients:', error);
     }
 };
-export const fetchClient = async (skip, search, sellerId) => {
+export const fetchOneClient = async ({clientId, route='admin'}) => {
     try {
-        const response = await api.post('/admin/clients/get', {
-            skip,
-            search,
-            sellerId
-        });
+        const response = await api.post(`/${route}/clients/getOne`, { _id: clientId });
         return response.data;
     } catch (error) {
         console.error('Error fetching clients:', error);
     }
 };
 
-export const fetchAdminCommands = async ({ skip = 0, fullfiled = null, filter = null, getSellers = false } = {}) => {
+export const fetchMagasinCommands = async ({ skip = 0, fullfiled = null, filter = null, getSellers = false } = {}) => {
     try {
-        const response = await api.post(`/admin/cmd/get`, { skip, fullfiled, filter, getSellers });
+        const response = await api.post('/magasin/cmd/get', { skip, fullfiled, filter, getSellers });
         return response.data;
     } catch (error) {
         console.error('Error fetching commands:', error);
     }
 };
 
-export const fetchRouteCommands = async ({ route = 'admin', skip = 0, fullfiled = null, filter = null, getSellers = false } = {}) => {
+export const fetchMagasinCommand = async (commandId) => {
     try {
-        const response = await api.post(`/${route}/cmd/get`, { skip, fullfiled, filter, getSellers });
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching commands:', error);
-    }
-};
-
-
-export const fetchAdminCommand = async (commandId) => {
-    try {
-        const response = await api.post('/admin/cmd/getOne', { _id: commandId });
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching command :', error);
-    }
-};
-export const fetchRouteCommand = async (commandId, route = 'admin') => {
-    try {
-        const response = await api.post(`/${route}/cmd/getOne`, { _id: commandId });
+        const response = await api.post('/magasin/cmd/getOne', { _id: commandId });
         return response.data;
     } catch (error) {
         console.error('Error fetching command :', error);
