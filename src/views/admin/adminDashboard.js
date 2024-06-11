@@ -1,10 +1,33 @@
-import React from "react";
-import "../../assets/css/Styles/AdminDashboard.css"; // Adjust the path to your CSS file if necessary
+import React, { useEffect, useState } from 'react';
+import api from '../../api/api';
+import '../../assets/css/Styles/AdminDashboard.css'; // Adjust the path to your CSS file if necessary
 
 const colors = ["#2b2d42", "#ff6f59", "#784f41", "#8e5572", "#f8c630", "#23967f", "#724e91"];
 
-
 const AdminDashboard = () => {
+  const [totalDebit, setTotalDebit] = useState(0);
+  const [pendingCommands, setPendingCommands] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cmdResponse = await api.post('/admin/cmd/count');
+        if (cmdResponse.data.count !== undefined) {
+          setPendingCommands(cmdResponse.data.count);
+        }
+
+        const debitResponse = await api.post('/admin/debit/count');
+        if (debitResponse.data.ok) {
+          setTotalDebit(debitResponse.data.totalDebit);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="app-container">
       <div className="user-home">
@@ -39,7 +62,7 @@ const AdminDashboard = () => {
               <div className="card-badge">
                 <i className="fas fa-terminal"></i>
               </div>
-              <div className="card-status card-danger-status">1</div>
+              <div className="card-status card-danger-status">{pendingCommands}</div>
             </a>
             <a
               className="app-card modern-app-card"
@@ -61,7 +84,7 @@ const AdminDashboard = () => {
                 <i className="fas fa-bell"></i>
               </div>
               <div className="card-status-long card-danger-status">
-                1022943.17
+                {totalDebit.toFixed(2)}
               </div>
             </a>
             <a

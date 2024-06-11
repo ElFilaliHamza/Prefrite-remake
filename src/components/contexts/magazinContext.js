@@ -1,25 +1,25 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { checkAdminAccess, fetchSellerInfo } from "../../api/sellersAPI";
+import { checkAdminAccess } from "../../api/sellersAPI";
 import config from "../../config/config";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import { useAppContext } from "./AppContext";
 import { checkRouteSession } from "../../api/loginAPI";
 
-const AdminContext = createContext();
+const MagazinContext = createContext();
 
-export const useAdminData = () => useContext(AdminContext);
+export const useMagazinData = () => useContext(MagazinContext);
 
-export const AdminDataProvider = ({ children }) => {
+export const MagazinDataProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [adminData, setAdminData] = useState(null);
+  const [adminData, setMagazinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [state, setState] = useAppContext();
 
-  const getAdminData = async () => {
+  const getMagazinData = async () => {
     try {
       // const data = await fetchSellerInfo();
-      setAdminData(null);
+      setMagazinData(null);
     } catch (error) {
       console.error("Error fetching seller info:", error);
     }
@@ -30,14 +30,14 @@ export const AdminDataProvider = ({ children }) => {
       if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
         const access = await checkAdminAccess();
         if (access.ok) {
-          await getAdminData();
+          await getMagazinData();
         } else {
           navigate("/" + state.session.route);
         }
       } else {
-        const session_data = await checkRouteSession(config.BASE_ROUTE.ADMIN);
+        const session_data = await checkRouteSession(config.BASE_ROUTE.MAGASIN);
         if (session_data.logged) {
-          await getAdminData();
+          await getMagazinData();
         } else {
           navigate("/login");
         }
@@ -53,6 +53,6 @@ export const AdminDataProvider = ({ children }) => {
   }
 
   return (
-    <AdminContext.Provider value={adminData}>{children}</AdminContext.Provider>
+    <MagazinContext.Provider value={adminData}>{children}</MagazinContext.Provider>
   );
 };

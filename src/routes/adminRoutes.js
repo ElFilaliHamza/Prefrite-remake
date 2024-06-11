@@ -11,6 +11,12 @@ import DebitStatus from "../views/admin/DebitStatus";
 import ClientDebitStatus from "../views/admin/ClientDebitStatus";
 import InvoiceDebitStatus from "../views/admin/InvoiceDebitStatus";
 import PageNotFound from "../views/PageNotFound";
+import Encaissements from "../views/admin/Encaissements";
+import Clients from "../views/admin/Clients";
+import ClientDetail from "../views/admin/ClientDetail";
+import CommandDetail from "../views/admin/CommandDetail";
+import CommandsHistory from "../views/admin/CommandsHistory";
+import CommandsAdmin from "../views/admin/CommandsAdmin";
 
 const AdminRoutes = () => {
   return (
@@ -25,15 +31,22 @@ const AdminRoutes = () => {
         <Route path="/vendeurs" element={<SellersList />} />
         <Route path="/vendeur/:idSeller" element={<SellerDetails />} />
         <Route path="/addClient/:idSeller" element={<AddClient />} />
-        <Route path="/debitStatus" element={<DebitStatus route={config.BASE_ROUTE.ADMIN}/>} />
-        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus route={config.BASE_ROUTE.ADMIN}/>} />
+        <Route path="/addClient/" element={<AddClient />} />
+        <Route path="/debitStatus" element={<DebitStatus route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/pay" element={<Encaissements route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/clients" element={<Clients route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/client/:clientId" element={<ClientDetail route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/commands" element={<CommandsAdmin route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/command/:commandId" element={<CommandDetail route={config.BASE_ROUTE.ADMIN} />} />
+        <Route path="/commandHistory" element={<CommandsHistory route={config.BASE_ROUTE.ADMIN} />} />
         {/* <Route
           path="/invoiceDebitStatus/:idClient"
           element={<InvoiceDebitStatus route={config.BASE_ROUTE.ADMIN}/>}
         /> */}
-      
+
         <Route path="*" element={<PageNotFound />} />
-      \</Routes>
+      </Routes>
     </AdminDataProvider>
   );
 };

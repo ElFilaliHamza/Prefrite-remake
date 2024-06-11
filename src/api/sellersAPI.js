@@ -143,7 +143,7 @@ export const checkAdminAccess = async () => {
   }
 };
 
-export const fetchClients = async () => {
+export const fetchAdminClients = async () => {
   try {
     const response = await api.post("/seller/getAllInfo");
 

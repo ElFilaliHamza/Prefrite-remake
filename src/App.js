@@ -20,6 +20,7 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/superadmin/*" element={<SuperAdminRoutes />} />
+          <Route path="/admin/*" element={<AdminRoutes />} />
           <Route
             path="/seller/*"
             element={
@@ -28,7 +29,6 @@ const App = () => {
               </SellerDataProvider>
             }
           />
-          <Route path="/admin/*" element={<AdminRoutes />} />
           {/* <Route path="/magasin/*" element={<MagasinRoutes />} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>

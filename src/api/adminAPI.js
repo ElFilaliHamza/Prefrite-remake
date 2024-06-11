@@ -36,7 +36,7 @@ export const handPayement = async ({ idSeller, payment }) => {
         const response = await api.post('/admin/vendeurs/handPayment', {
             _id: idSeller,
             payment: parseFloat(payment)
-          });
+        });
         return response.data;
     } catch (error) {
         console.error('Error in handpayment api:', error);
@@ -44,17 +44,48 @@ export const handPayement = async ({ idSeller, payment }) => {
     }
 };
 
-export const updateSellerArticle = async (idSeller, editArticleId , editArticleQty) => {
+export const updateSellerArticle = async (idSeller, editArticleId, editArticleQty) => {
     try {
-        const response =await api.post('/admin/vendeurs/updateArticle', {
+        const response = await api.post('/admin/vendeurs/updateArticle', {
             sellerId: idSeller,
             _id: editArticleId,
             qt: parseFloat(editArticleQty)
-          });
+        });
         return response.data;
     } catch (error) {
         console.error('Error in handpayment api:', error);
         throw error;
+    }
+};
+
+export const fetchClients = async (skip, search, sellerId) => {
+    try {
+        const response = await api.post('/admin/clients/get', {
+            skip,
+            search,
+            sellerId
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching clients:', error);
+    }
+};
+
+export const fetchAdminCommands = async ({ skip = 0, fullfiled = null, filter = null, getSellers = false } = {}) => {
+    try {
+        const response = await api.post('/admin/cmd/get', { skip, fullfiled, filter, getSellers });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching commands:', error);
+    }
+};
+
+export const fetchAdminCommand = async (commandId) => {
+    try {
+        const response = await api.post('/admin/cmd/getOne', { _id: commandId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching command :', error);
     }
 };
 
