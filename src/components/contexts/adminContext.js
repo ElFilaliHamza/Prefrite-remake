@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { checkAdminAccess, fetchSellerInfo } from "../../api/sellersAPI";
 import config from "../../config/config";
 import { useNavigate } from "react-router-dom";
@@ -14,45 +14,58 @@ export const AdminDataProvider = ({ children }) => {
   const navigate = useNavigate();
   const [adminData, setAdminData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [state, setState] = useAppContext();
+  const [state] = useAppContext();
 
-  const getAdminData = async () => {
+  const getAdminData = useCallback(async () => {
     try {
+      // Fetch and set admin data here
       // const data = await fetchSellerInfo();
-      setAdminData(null);
+      setAdminData(null); // Replace null with actual data when implemented
     } catch (error) {
-      console.error("Error fetching seller info:", error);
+      console.error("Error fetching admin info:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
-        const access = await checkAdminAccess();
-        if (access.ok) {
-          await getAdminData();
+      try {
+        if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
+          const access = await checkAdminAccess();
+          if (access.ok) {
+            await getAdminData();
+          } else {
+            navigate(`/${state.session.route}`);
+          }
         } else {
-          navigate("/" + state.session.route);
+          const session_data = await checkRouteSession(config.BASE_ROUTE.ADMIN);
+          if (session_data.logged) {
+            await getAdminData();
+          } else {
+            navigate("/login");
+          }
         }
-      } else {
-        const session_data = await checkRouteSession(config.BASE_ROUTE.ADMIN);
-        if (session_data.logged) {
-          await getAdminData();
-        } else {
-          navigate("/login");
-        }
+      } catch (error) {
+        console.error("Error during data fetching:", error);
+        navigate("/login");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchData();
-  }, [state.session.route, navigate]);
+  }, [state.session.route, navigate, getAdminData]);
+
+  const contextValue = useMemo(() => ({
+    adminData,
+  }), [adminData]);
 
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <AdminContext.Provider value={adminData}>{children}</AdminContext.Provider>
+    <AdminContext.Provider value={contextValue}>
+      {children}
+    </AdminContext.Provider>
   );
 };

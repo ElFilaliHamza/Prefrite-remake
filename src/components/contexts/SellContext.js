@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useMemo } from "react";
 
 const SellContext = createContext();
 
@@ -8,7 +8,7 @@ export const SellProvider = ({ children }) => {
     arts: [],
     payment: 0,
   });
-  const [total, setTotal] = useState(0);
+  
 
   const addToPanier = (art) => {
     setPanier((prevPanier) => {
@@ -40,10 +40,22 @@ export const SellProvider = ({ children }) => {
     });
   };
 
+  const total = useMemo(() => {
+    return panier.arts.reduce((sum, art) => sum + art.qt * art.price, 0);
+  }, [panier.arts]);
+
+  const contextValue = useMemo(() => ({
+    panier,
+    setPanier,
+    addToPanier,
+    removeFromPanier,
+    clearPanier,
+    total,
+    setTotal: (value) => setPanier((prev) => ({ ...prev, payment: value }))
+  }), [panier, total]);
+
   return (
-    <SellContext.Provider
-      value={{ panier, setPanier, addToPanier, removeFromPanier, clearPanier, total, setTotal }}
-    >
+    <SellContext.Provider value={contextValue}>
       {children}
     </SellContext.Provider>
   );

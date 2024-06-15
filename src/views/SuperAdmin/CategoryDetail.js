@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getArticles } from "../../api/articlesApi";
+import ArticleCard from "../../components/ArticleCard";
 
 const CategoryDetail = () => {
   const { catId } = useParams();
   const [articles, setArticles] = useState([]);
   const [skip, setSkip] = useState(0);
   const [endArticles, setEndArticles] = useState(false);
-  const [categoryName, setCategoryName] = useState("Mozzarella"); // Set your default or fetched category name
   const effectRan = useRef(false);
 
   useEffect(() => {
@@ -45,23 +45,7 @@ const CategoryDetail = () => {
             <i className="fas fa-plus"></i>
           </a>
           {articles.map((article, index) => (
-            <a
-              key={article._id + index}
-              className="article-card"
-              href={`/superadmin/article/${article._id}`}
-            >
-              <div className="article-card-name">
-                <div>{article.name}</div>
-              </div>
-              <div className="article-card-img">
-                {article.img ? (
-                  <img src={article.img} alt={article.name} />
-                ) : (
-                  <i class="fad fa-images notfound-img"></i>
-                )}
-              </div>
-              <div className="article-card-price">{article.prixVente} DHS</div>
-            </a>
+            <ArticleCard key={article._id + index} article={article} />
           ))}
         </div>
         {!endArticles && (

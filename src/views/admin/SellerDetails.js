@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import { fetchSellerDetails, fetchMoreArticles, handPayement, updateSellerArticle } from '../../api/adminAPI';
 import Loading from '../../components/Loading';
 import StatsChart from '../../components/StatsChart';
-import api from '../../api/api'; 
+import { usePrintComponent } from '../../tools/printComponent';
+import api from '../../api/api';
 import { formatNumber } from '../../tools/global';
+import InvoiceContent from '../../components/InvoiceContent';
 
 const SellerDetails = () => {
   const { idSeller } = useParams();
@@ -16,6 +18,8 @@ const SellerDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [editArticleId, setEditArticleId] = useState(null);
   const [editArticleQty, setEditArticleQty] = useState(0);
+  const [showPrint, setShowPrint] = useState(false);
+  const [handlePrint, PrintComponent] = usePrintComponent();
   const limit = 10; // Number of articles to fetch per request
 
   useEffect(() => {
@@ -120,6 +124,14 @@ const SellerDetails = () => {
     setEditArticleId(null);
   };
 
+  const handleShowPrint = () => {
+    setShowPrint(true);
+  };
+
+  const handleHidePrint = () => {
+    setShowPrint(false);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -142,54 +154,59 @@ const SellerDetails = () => {
             <div className="user-vendeur-child">
               <div className="vendeur-articles user-vendeur-item">
                 <a className="art-add"><span>Articles</span></a>
-                <table className="modern-table">
-                  <tbody>
-                    <tr>
-                      <th>Nom</th>
-                      <th>Quantite</th>
-                      <th>Action</th>
-                    </tr>
-                    {articles.map(article => (
-                      <tr key={article._id}>
-                        {editArticleId === article._id ? (
-                          <td colSpan="2">
-                            <div className="vendeur-art-edit">
-                              <form className="vendeur-art-edit" onSubmit={handleArticleEditSubmit}>
-                                {article.name}&nbsp;-&nbsp;
-                                <input
-                                  type="number"
-                                  step="any"
-                                  className="art-input"
-                                  value={editArticleQty}
-                                  onChange={handleArticleQtyChange}
-                                />
-                                <label className="icon icon-success">
-                                  <i className="fas fa-check"></i>
-                                  <input type="submit" hidden />
-                                </label>
-                                <div className="icon icon-danger" onClick={handleCancelEdit}>
-                                  <i className="fas fa-times"></i>
+                {articles.length > 0 && (
+                  <>
+                    <table className="modern-table">
+                      <tbody>
+                        <tr>
+                          <th>Nom</th>
+                          <th>Quantite</th>
+                          <th>Action</th>
+                        </tr>
+                        {articles.map(article => (
+                          <tr key={article._id}>
+                            {editArticleId === article._id ? (
+                              <td colSpan="2">
+                                <div className="vendeur-art-edit">
+                                  <form className="vendeur-art-edit" onSubmit={handleArticleEditSubmit}>
+                                    {article.name}&nbsp;-&nbsp;
+                                    <input
+                                      type="number"
+                                      step="any"
+                                      className="art-input"
+                                      value={editArticleQty}
+                                      onChange={handleArticleQtyChange}
+                                    />
+                                    <label className="icon icon-success">
+                                      <i className="fas fa-check"></i>
+                                      <input type="submit" hidden />
+                                    </label>
+                                    <div className="icon icon-danger" onClick={handleCancelEdit}>
+                                      <i className="fas fa-times"></i>
+                                    </div>
+                                  </form>
                                 </div>
-                              </form>
-                            </div>
-                          </td>
-                        ) : (
-                          <>
-                            <td><div className="vendeur-article-card-name">{article.name}</div></td>
-                            <td><div className="vendeur-art-edit">{article.qt}</div></td>
-                            <td>
-                              <div className="vendeur-article-remove" onClick={() => handleEditArticleClick(article._id)}>
-                                <i className="fas fa-minus"></i>
-                              </div>
-                            </td>
-                          </>
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div className="flat-btn-small btn-blue show-more-btn" onClick={loadMoreArticles}>Afficher plus</div>
-                <div className="flat-btn-small flat-btn-center btn-blue">Imprimer <i className="far fa-print"></i></div>
+                              </td>
+                            ) : (
+                              <>
+                                <td><div className="vendeur-article-card-name">{article.name}</div></td>
+                                <td><div className="vendeur-art-edit">{article.qt}</div></td>
+                                <td>
+                                  <div className="vendeur-article-remove" onClick={() => handleEditArticleClick(article._id)}>
+                                    <i className="fas fa-minus"></i>
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    <div className="flat-btn-small btn-blue show-more-btn" onClick={loadMoreArticles}>Afficher plus</div>
+                    <div className="flat-btn-small flat-btn-center btn-blue" onClick={handleShowPrint}>Imprimer <i className="far fa-print"></i></div>
+                  </>
+                )}
               </div>
               <div className="user-vendeur-item">
                 <a className="art-add" href={`/admin/addClient/${vendeur._id}`}><span>Clients</span><i className="fas fa-plus"></i></a>
@@ -217,7 +234,7 @@ const SellerDetails = () => {
               <div className="user-vendeur-item">
                 <div className="art-add">Etat</div>
                 <div className="stats-container">
-                  <h3>Total: {stats.leftToSell} DHS</h3>
+                  <h3>Total: {formatNumber(stats.credit + stats.paid + stats.leftToSell)} DHS</h3>
                   <StatsChart stats={stats} /> {/* Add the StatsChart component here */}
                 </div>
               </div>
@@ -251,20 +268,32 @@ const SellerDetails = () => {
                     <div>Nom:</div>
                     <div>{vendeur.name}</div>
                   </div>
-                  <div className="vendeur-extra-item">
+                  {/* <div className="vendeur-extra-item">
                     <div>Username:</div>
                     <div>{vendeur.username}</div>
                   </div>
                   <div className="vendeur-extra-item">
                     <div>Password:</div>
                     <div>{vendeur.password}</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {showPrint && (
+        <div className="art-adding">
+          <div className="print-modal">
+            <div className="modal-nav">
+              <div className="close-modal" onClick={handleHidePrint}><i className="fas fa-times"></i></div>
+            </div>
+            <PrintComponent>
+              <InvoiceContent sellerData={sellerData} />
+            </PrintComponent>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

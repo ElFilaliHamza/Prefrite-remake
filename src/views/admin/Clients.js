@@ -33,31 +33,28 @@ const Clients = () => {
         fetchInitialData();
     }, []);
 
+    useEffect(() => {
+        setSkip(0); // Reset skip when search or selectedSeller changes
+        getNewClients();
+    }, [search, selectedSeller]);
+
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
-        setSkip(0);
-        getNewClients();
     };
 
     const handleSellerChange = (e) => {
         setSelectedSeller(e.target.value);
-        setSkip(0);
-        getNewClients();
     };
+
     const getNewClients = async () => {
         try {
-            const clientsData = await fetchClients(skip, search, selectedSeller);
+            const clientsData = await fetchClients(0, search, selectedSeller);
             setClients(clientsData.clients);
             setEndClients(clientsData.endClients);
         } catch (error) {
             console.error('Error fetching clients:', error);
         }
     };
-    // const handleSearchSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setSkip(0);
-    //     getNewClients();
-    // };
 
     const loadMoreClients = async () => {
         try {

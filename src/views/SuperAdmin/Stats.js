@@ -84,7 +84,7 @@ const Stats = ({ startTime, endTime }) => {
                       ? "seller-card-not-profit"
                       : "seller-card-profit"
                       }`}
-                    to={`/superadmin/stats/seller/${seller.sellerInfo._id}`}
+                    to={`/superadmin/stats/sellerStats/${seller.sellerInfo._id}`}
                   >
                     <div className="card-badge">
                       <div>

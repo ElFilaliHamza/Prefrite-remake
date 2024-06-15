@@ -4,7 +4,7 @@ import { fetchInvoiceData } from "../../api/invoicesAPI";
 import Loading from "../../components/Loading";
 import Invoice from "../../components/Invoice";
 
-const SellerInvoiceDetail = () => {
+const SellerInvoiceDetail = ({route}) => {
   const { idInvoice } = useParams();
   const [invoice, setInvoice] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,8 +12,7 @@ const SellerInvoiceDetail = () => {
   useEffect(() => {
     const getInvoiceData = async () => {
       try {
-        const endpoint_route = "/seller/invoice/getOne";
-        const data = await fetchInvoiceData(idInvoice,endpoint_route);
+        const data = await fetchInvoiceData(idInvoice,route);
         // console.log("Invoice")
         // console.log(data)
         setInvoice(data);

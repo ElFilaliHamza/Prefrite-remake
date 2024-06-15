@@ -22,7 +22,7 @@ export const login = async (username, password) => {
 };
 
 // export const logout = async (route) => {
-//   const logoutEndpoint = route === "superadmin" ? "/superadmin/session/logout" : "/seller/session/logout";
+//   const logoutEndpoint = route === config.BASE_ROUTE.SUPER_ADMIN ? "/superadmin/session/logout" : "/seller/session/logout";
 
 //   const response = await api.post(logoutEndpoint);
 //   return response.data;

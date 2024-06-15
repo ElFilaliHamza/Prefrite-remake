@@ -9823,7 +9823,7 @@
                     { className: "card-list superusers-list" },
                     a.accounts
                       .filter(function (e) {
-                        return "superadmin" === e.type;
+                        return config.BASE_ROUTE.SUPER_ADMIN === e.type;
                       })
                       .map(function (e, t) {
                         return r.a.createElement(ha, {

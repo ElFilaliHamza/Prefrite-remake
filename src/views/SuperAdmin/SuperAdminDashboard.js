@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchAlertsCount } from '../../api/alertsAPI';
-// import { checkSellerAccess } from '../../api/sellersAPI';
-// import '../../assets/css/main.css'; // Custom CSS for styling
+import { useAppContext } from '../../components/contexts/AppContext'; // Import useAppContext
 import PathNav from '../../components/PathNav';
 
 const SuperAdminDashboard = () => {
   const [alertsCount, setAlertsCount] = useState(null);
+  const [state] = useAppContext(); // Use the AppContext
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +21,9 @@ const SuperAdminDashboard = () => {
 
     getAlertsCount();
   }, []);
-  
+
+  const connectedSellers = state.connectedSellers || 0; // Get the number of connected sellers from state
+
   return (
     <div className="app-container">
       <div className="simple-container">
@@ -50,7 +52,12 @@ const SuperAdminDashboard = () => {
           <Link className="app-card modern-app-card card-c-6" to="/superadmin/liveSellers">
             Vendeurs En Ligne
             <div className="card-badge"><i className="fas fa-wifi"></i></div>
-            <div className="card-status card-danger-status"><i className="fas fa-times"></i></div>
+            {connectedSellers > 0 ? (<>
+              <div className="card-status card-success-status">{connectedSellers}</div>
+            </>
+            ) : (
+              <div className="card-status card-danger-status"><i className="fas fa-times"></i></div>
+            )}
           </Link>
           <a className="app-card modern-app-card card-c-7" href="/seller">
             Vente

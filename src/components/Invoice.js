@@ -140,6 +140,7 @@
 import React from "react";
 import { usePrintComponent } from "../tools/printComponent";
 import config from "../config/config";
+import { dateToString } from "../tools/dates";
 // import "../assets/css/main.css"; // Ensure this file contains the necessary styles
 
 const Invoice = ({ invoice, currentDate, showPeyementHistory = false, showActions = false }) => {
@@ -247,7 +248,7 @@ const Invoice = ({ invoice, currentDate, showPeyementHistory = false, showAction
                   {invoice.payDetails.map((payment, index) => (
                     <tr key={index}>
                       <td>{payment.amount} DHS</td>
-                      <td>{new Date(payment.time).toLocaleString()}</td>
+                      <td>{dateToString(payment.time)}</td>
                     </tr>
                   ))}
                 </tbody>

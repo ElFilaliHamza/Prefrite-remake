@@ -83,7 +83,7 @@ const Accounts = () => {
   return (
     <div className="app-container">
       <div className="simple-container">
-        <div className="card-list superusers-list">
+        <div className="card-list superusers-list black-card-text">
           <Link className="app-card" to="/superadmin/accounts/create">
             Créer un compte
             <div className="card-badge card-user">
@@ -96,7 +96,7 @@ const Accounts = () => {
             <div className="superusers-title">
               {config.ROLE_NAME_TEXT[categoryName.toUpperCase()]}:
             </div>
-            <div className="card-list superusers-list">
+            <div className="card-list superusers-list black-card-text">
               {categoryAccounts.map((account) => (
                 <div key={account._id} className={`app-card superusers-card`}>
                   <div className="superusers-info superusers-info-flex">
@@ -154,7 +154,7 @@ const Accounts = () => {
                         </>
                       ) : (
                         <>
-                          <Link to={`/${account.type}`}>
+                          <Link to={`/${account.type}/${account._id}`}>
                             <div className="superusers-action-btn superusers-open">
                               <i className="fas fa-external-link-alt"></i>
                             </div>
@@ -173,17 +173,15 @@ const Accounts = () => {
                     </div>
                   )}
                   <div
-                    className={`refresh-btn superusers-more-btn ${
-                      expandedCard === account._id
-                        ? "superusers-more-btn-up"
-                        : ""
-                    }`}
+                    className={`refresh-btn superusers-more-btn ${expandedCard === account._id
+                      ? "superusers-more-btn-up"
+                      : ""
+                      }`}
                     onClick={() => toggleCardExpansion(account._id)}
                   >
                     <i
-                      className={`fas fa-arrow-${
-                        expandedCard === account._id ? "up" : "down"
-                      }`}
+                      className={`fas fa-arrow-${expandedCard === account._id ? "up" : "down"
+                        }`}
                     ></i>
                   </div>
                 </div>

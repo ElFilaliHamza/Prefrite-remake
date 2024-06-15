@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { checkSellerAccess, fetchSellerInfo } from "../../api/sellersAPI";
 import config from "../../config/config";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,17 +17,18 @@ export const SellerDataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [state, setState] = useAppContext();
 
-  const getSellerData = async (sellerId) => {
+  const getSellerData = useCallback(async (id) => {
     try {
-      const data = await fetchSellerInfo(sellerId); // Fetch seller data using the sellerId
+      const data = await fetchSellerInfo(id); // Fetch seller data using the sellerId
       setSellerData(data);
     } catch (error) {
       console.error("Error fetching seller info:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
         const access = await checkSellerAccess();
         if (access.ok) {
@@ -38,7 +39,7 @@ export const SellerDataProvider = ({ children }) => {
       } else {
         const session_data = await checkRouteSession(config.BASE_ROUTE.SELLER);
         if (session_data.logged) {
-            await getSellerData(); // Pass sellerId to getSellerData
+          await getSellerData(sellerId); // Pass sellerId to getSellerData
         } else {
           navigate("/login");
         }
@@ -47,7 +48,7 @@ export const SellerDataProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [state.session.route, navigate, sellerId]); // Add sellerId as a dependency
+  }, [getSellerData, sellerId, navigate, state.session.route]); // Add necessary dependencies
 
   if (loading) {
     return <Loading />;

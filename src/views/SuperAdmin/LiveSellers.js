@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "../../components/contexts/AppContext";
+import { dateToString } from "../../tools/dates";
+import Loading from "../../components/Loading";
 
 const LiveSellers = () => {
   const [sellers, setSellers] = useState([]);
@@ -14,7 +16,7 @@ const LiveSellers = () => {
       setLoading(false);
     };
 
-    const handleSellersConnection = (seller) => {
+    const handleSellerConnection = (seller) => {
       const connectedSeller = seller.sellerInfo;
       setSellers((prevSellers) => {
         const index = prevSellers.findIndex(
@@ -25,8 +27,8 @@ const LiveSellers = () => {
           updatedSellers[index] = {
             ...updatedSellers[index],
             connected: connectedSeller.connected,
-            connectTime: new Date(),
-            disconnectTime: new Date(),
+            connectTime: connectedSeller.connectTime,
+            disconnectTime: connectedSeller.disconnectTime,
           };
           return updatedSellers;
         } else {
@@ -37,28 +39,31 @@ const LiveSellers = () => {
 
     if (socketRef) {
       socketRef.on("all_sellers", handleSellersUpdate);
-      socketRef.on("seller_connected", handleSellersConnection);
-      socketRef.on("seller_disconnected", handleSellersConnection);
-    }
+      socketRef.on("seller_connected", handleSellerConnection);
+      socketRef.on("seller_disconnected", handleSellerConnection);
 
-    return () => {
-      if (socketRef) {
+      // Clean up event listeners on unmount
+      return () => {
         socketRef.off("all_sellers", handleSellersUpdate);
-        socketRef.off("seller_connected", handleSellersConnection);
-        socketRef.off("seller_disconnected", handleSellersConnection);
-      }
-    };
+        socketRef.off("seller_connected", handleSellerConnection);
+        socketRef.off("seller_disconnected", handleSellerConnection);
+      };
+    }
   }, [socketRef]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  const sortedSellers = sellers.sort((a, b) => (b.connected ? 1 : -1));
+  const sortedSellers = sellers.sort((a, b) => {
+    const aConnectTime = a.connectTime ? new Date(a.connectTime).getTime() : 0;
+    const bConnectTime = b.connectTime ? new Date(b.connectTime).getTime() : 0;
+    return bConnectTime - aConnectTime; // Sort in descending order
+  });
 
   return (
     <div className="app-container">
@@ -69,42 +74,40 @@ const LiveSellers = () => {
           </a>
         </div>
         <div className="title-2">Statut Vendeurs</div>
-        <div className="card-list">
+        <div className="card-list black-card-text">
           {sortedSellers.length ? (
             sortedSellers.map((seller, idx) => (
               <div key={seller._id + idx} className="app-card">
                 <div className="superlive-info">
                   <div className="superlive-info-text">
-                    <div className="superlive-status-small">
-                      <i className="fas fa-wifi"></i>
-                    </div>
-                    <span>
-                      {new Date(seller.connectTime).toLocaleString()}
-                    </span>
+                    {seller.connectTime && (
+                      <>
+                        <div className="superlive-status-small">
+                          <i className="fas fa-wifi"></i>
+                        </div>
+                        <span>{dateToString(seller.connectTime)}</span>
+                      </>
+                    )}
                   </div>
-                  {!seller.connected && (
+                  {!seller.connected && seller.disconnectTime && (
                     <div className="superlive-info-text">
                       <div className="superlive-status-small">
                         <i className="fas fa-times"></i>
                       </div>
-                      <span>
-                        {new Date(seller.disconnectTime).toLocaleString()}
-                      </span>
+                      <span>{dateToString(seller.disconnectTime)}</span>
                     </div>
                   )}
                 </div>
                 <div>{seller.name}</div>
                 <div
-                  className={`card-status ${
-                    seller.connected
-                      ? "card-success-status"
-                      : "card-danger-status"
-                  }`}
+                  className={`card-status ${seller.connected
+                    ? "card-success-status"
+                    : "card-danger-status"
+                    }`}
                 >
                   <i
-                    className={`fas ${
-                      seller.connected ? "fa-wifi" : "fa-times"
-                    }`}
+                    className={`fas ${seller.connected ? "fa-wifi" : "fa-times"
+                      }`}
                   ></i>
                 </div>
               </div>

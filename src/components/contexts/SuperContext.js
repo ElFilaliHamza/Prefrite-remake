@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import config from "../../config/config";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
@@ -15,31 +15,36 @@ export const SuperDataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [state, setState] = useAppContext();
 
-  useEffect(() => {
-    console.log("SuperContext");
-    const fetchData = async () => {
-      if (!state.session.route) {
-        const session_data = await checkRouteSession(
-          config.BASE_ROUTE.SUPER_ADMIN
-        );
-        console.log("checkRouteSession SUPER_ADMIN:::");
-        console.log(session_data);
+  const fetchSessionData = useCallback(async () => {
+    if (!state.session.route) {
+      try {
+        const session_data = await checkRouteSession(config.BASE_ROUTE.SUPER_ADMIN);
+        console.log("checkRouteSession SUPER_ADMIN:::", session_data);
         if (session_data.logged) {
           navigate(`/${config.BASE_ROUTE.SUPER_ADMIN}`);
         } else {
           navigate("/login");
         }
+      } catch (error) {
+        console.error("Error checking route session:", error);
+        navigate("/login");
       }
-      setLoading(false);
-    };
-    fetchData();
+    }
+    setLoading(false);
   }, [state.session.route, navigate]);
+
+  useEffect(() => {
+    console.log("SuperContext");
+    fetchSessionData();
+  }, [fetchSessionData]);
 
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <SuperContext.Provider value={superData}>{children}</SuperContext.Provider>
+    <SuperContext.Provider value={superData}>
+      {children}
+    </SuperContext.Provider>
   );
 };

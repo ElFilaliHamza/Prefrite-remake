@@ -59,7 +59,7 @@ config.getRouteNameText = (route) => {
       return config.ROLE_NAME_TEXT.ADMIN;
     case config.BASE_ROUTE.SELLER:
       return config.ROLE_NAME_TEXT.SELLER;
-    case config.BASE_ROUTE.SUPER_ADMIN:
+    case "superadmin": 
       return config.ROLE_NAME_TEXT.SUPER_ADMIN;
     default:
       return "Unknown Role";
@@ -68,7 +68,7 @@ config.getRouteNameText = (route) => {
 
 config.getRouteName = (route) => {
   switch (route) {
-    case "superadmin":
+    case config.BASE_ROUTE.SUPER_ADMIN:
       return config.BASE_ROUTE.SUPER_ADMIN;
     case "seller":
       return config.BASE_ROUTE.SELLER;

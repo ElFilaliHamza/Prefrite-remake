@@ -29,7 +29,7 @@ const SuperAdminRoutes = () => {
   
   return (
     <SuperDataProvider>
-      <Header title="Super Admin" logout_route="superadmin" />
+      <Header title={config.ROLE_NAME_TEXT.SUPER_ADMIN} logout_route={config.BASE_ROUTE.SUPER_ADMIN} />
       <Routes>
         <Route path="/" element={<SuperAdminDashboard />} />
         <Route path="/categories" element={<Categories />} />
@@ -63,7 +63,7 @@ const SuperAdminRoutes = () => {
         <Route path="/payments" element={<PaymentHistory />} />
         <Route path="/liveSellers" element={<LiveSellers />} />
         <Route path="/stats" element={<Stats />} />
-        <Route path="/stats/SellerStats/:idSeller" element={<SellerStats />} />
+        <Route path="/stats/sellerStats/:idSeller" element={<SellerStats />} />
       </Routes>
     </SuperDataProvider>
   );

@@ -41,7 +41,7 @@ const AddClient = () => {
                 sellerId
             });
             if (response.data.ok) {
-                navigate('/admin/vendeurs'); // Redirect to clients list page
+                navigate('/admin/clients'); // Redirect to clients list page
             } else {
                 setError(response.data.errorMessage || 'An error occurred');
             }

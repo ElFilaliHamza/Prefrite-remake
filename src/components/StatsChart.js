@@ -31,7 +31,7 @@ const StatsChart = ({ stats }) => {
           'rgba(54, 162, 235, 1)',    // Hover border color for 'Left to Sell'
           'rgba(255, 206, 86, 1)',    // Hover border color for 'Credit'
         ],
-        data: [stats.sold, stats.leftToSell, stats.credit]
+        data: [stats.paid, stats.leftToSell, stats.credit]
       }
     ]
   };

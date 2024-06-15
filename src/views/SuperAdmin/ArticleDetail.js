@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   getArticle,
   updateArticle,
@@ -7,7 +7,6 @@ import {
   getStockHistory,
 } from "../../api/articlesApi";
 import "../../assets/css/Styles/ArticleDetail.css"; // Custom CSS for styling
-import defaultSVG from "../../assets/images/default_article.svg";
 
 const ArticleDetail = () => {
   const { idArt } = useParams();

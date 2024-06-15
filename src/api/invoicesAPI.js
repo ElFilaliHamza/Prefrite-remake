@@ -1,7 +1,9 @@
+import config from "../config/config";
 import api from "./api"; // Ensure the api instance is set up correctly
 
-export const fetchInvoicesDebitData = async (idClient, endpoint_route="/superadmin/debit/getInvoices") => {
+export const fetchInvoicesDebitData = async (idClient, route=config.BASE_ROUTE.SUPER_ADMIN) => {
   try {
+    const endpoint_route = `/${route}/debit/getInvoices`;
     const response = await api.post(
       endpoint_route,
       { _id: idClient }
@@ -14,8 +16,9 @@ export const fetchInvoicesDebitData = async (idClient, endpoint_route="/superadm
   }
 };
 
-export const fetchInvoiceData = async (idInvoice, endpoint_route="/superadmin/debit/getInvoice") => {
+export const fetchInvoiceData = async (idInvoice, route=config.BASE_ROUTE.SUPER_ADMIN) => {
   try {
+    const endpoint_route =`/${route}/debit/getInvoice`;
     const response = await api.post(
       endpoint_route,
       { _id: idInvoice }

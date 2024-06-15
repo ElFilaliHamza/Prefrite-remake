@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useAppContext } from './contexts/AppContext';
 
@@ -29,6 +29,19 @@ const WebSocketManager = () => {
       console.log("Disconnected from Socket.IO");
       setTimeout(connectSocketIO, 5000);
     });
+
+    socketRef.current.on("all_sellers", (data) => {
+      const connectedSellers = data.sellers.filter(seller => seller.connected).length;
+      setState(prevState => ({ ...prevState, connectedSellers }));
+    });
+
+    socketRef.current.on("seller_connected", () => {
+      setState(prevState => ({ ...prevState, connectedSellers: prevState.connectedSellers + 1 }));
+    });
+
+    socketRef.current.on("seller_disconnected", () => {
+      setState(prevState => ({ ...prevState, connectedSellers: prevState.connectedSellers - 1 }));
+    });
   };
 
   useEffect(() => {
@@ -37,7 +50,7 @@ const WebSocketManager = () => {
     }
     return () => {
       if (socketRef.current) {
-        // socketRef.current.disconnect();
+        socketRef.current.disconnect();
       }
     };
   }, [state.session]);

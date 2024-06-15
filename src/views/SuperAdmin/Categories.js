@@ -9,8 +9,10 @@ const Categories = () => {
   const effectRan = useRef(false);
 
   useEffect(() => {
+    console.log("effect ran");
     if (effectRan.current === false) {
       loadCategories();
+      console.log("effect becomes true");
       effectRan.current = true;
     }
     return () => {

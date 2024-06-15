@@ -19,8 +19,8 @@ const InvoiceDebitStatus = ({route}) => {
     useEffect(() => {
         const getInvoicesData = async () => {
             try {
-                const endpoint_route = `/${route}/debit/getInvoices`;
-                const data = await fetchInvoicesDebitData(idClient, endpoint_route);
+                
+                const data = await fetchInvoicesDebitData(idClient, route);
                 setInvoices(data);
                 setLoading(false);
             } catch (error) {

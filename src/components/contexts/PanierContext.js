@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import { fetchCategoriesAndArticles } from '../../api/sellersAPI'; // Ensure the correct path
 
 const PanierContext = createContext();
@@ -11,23 +11,26 @@ export const PanierProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchCategoriesAndArticles();
-      setCategories(data.categories);
-      setArticles(data.articles);
-      setLoading(false);
+      try {
+        const data = await fetchCategoriesAndArticles();
+        setCategories(data.categories);
+        setArticles(data.articles);
+      } catch (error) {
+        console.error('Error fetching categories and articles:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
   }, []);
 
-  const addArticleToPanier = (articleId, quantity) => {
+  const addArticleToPanier = useCallback((articleId, quantity) => {
     setPanierArticles((prevArticles) => {
-      // Filter out the article if the quantity is 0
       if (!quantity) {
         return prevArticles.filter(article => article._id !== articleId);
       }
 
-      // Add or update the article in the panier
       const articleIndex = prevArticles.findIndex((article) => article._id === articleId);
       if (articleIndex !== -1) {
         const updatedArticles = [...prevArticles];
@@ -36,10 +39,18 @@ export const PanierProvider = ({ children }) => {
       }
       return [...prevArticles, { _id: articleId, qt: quantity }];
     });
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({
+    categories,
+    articles,
+    panierArticles,
+    addArticleToPanier,
+    loading
+  }), [categories, articles, panierArticles, addArticleToPanier, loading]);
 
   return (
-    <PanierContext.Provider value={{ categories, articles, panierArticles, addArticleToPanier, loading }}>
+    <PanierContext.Provider value={contextValue}>
       {children}
     </PanierContext.Provider>
   );

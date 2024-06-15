@@ -13,3 +13,8 @@
 .black-card-text {
   color: black !important;
 }
+
+.myprint-modal {
+  max-height: 80vh; /* Adjust as needed */
+  overflow-y: auto;
+}

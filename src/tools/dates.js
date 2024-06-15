@@ -17,6 +17,17 @@ export const getTodayDate = () => {
     return '2024-06-07';
   }
 };
+export const dateToString = (date) => {
+  try{
+
+    const new_date = new Date(date).toLocaleString()
+    return new_date !== 'Invalid Date' ? new_date : '';
+  }catch(e){
+    return '';
+  }
+};
+
+
 
 
 

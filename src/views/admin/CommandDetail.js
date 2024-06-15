@@ -5,6 +5,7 @@ import { fetchRouteCommand } from '../../api/adminAPI';
 import config from '../../config/config';
 import api from '../../api/api';
 import { usePrintComponent } from '../../tools/printComponent';
+import { formatNumber } from '../../tools/global';
 
 const CommandDetail = ({ route }) => {
     const { commandId } = useParams();
@@ -90,7 +91,7 @@ const CommandDetail = ({ route }) => {
         return <div>No command data found.</div>;
     }
 
-    const { _id, sellerInfo, articles, time } = command;
+    const { _id, sellerInfo, articles, time, fullfiled } = command;
 
     return (
         <div className="app-container">
@@ -119,7 +120,7 @@ const CommandDetail = ({ route }) => {
                                         <React.Fragment key={article._id}>
                                             <tr>
                                                 <td colSpan="2">{article.name}</td>
-                                                <td>{article.qtStocke}</td>
+                                                <td>{formatNumber(article.qtStocke)}</td>
                                                 {route === config.BASE_ROUTE.MAGASIN && (
                                                     <td rowSpan="2" className="cmd-lastLine">
                                                         <div className="flat-btn-small btn-red" onClick={() => {
@@ -147,6 +148,9 @@ const CommandDetail = ({ route }) => {
                                     </tr>
                                 </tbody>
                             </table>
+                            {fullfiled && (
+                                <div className="printable-title">Validée</div>
+                            )}
                         </PrintComponent>
                     </div>
                     {route === config.BASE_ROUTE.MAGASIN && (

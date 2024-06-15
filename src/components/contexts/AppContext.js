@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { checkSession } from "../../api/loginAPI";
 import Loading from "../Loading";
@@ -17,7 +17,7 @@ export const AppProvider = ({ children }) => {
     socket: null,
   });
 
-  const checkCurrSession = async () => {
+  const checkCurrSession = useCallback(async () => {
     try {
       const login_data = await checkSession();
       if (login_data.logged) {
@@ -28,33 +28,35 @@ export const AppProvider = ({ children }) => {
         }));
 
         const currentPath = location.pathname;
-
-        // Define the allowed routes based on user roles
         const baseRoute = allowedRoutes[login_data.route];
 
-        // Check if the current path starts with the allowed base route
         if (login_data.route !== 'superadmin' && !currentPath.startsWith(baseRoute)) {
           navigate(`/${login_data.route}`);
-        } else {
-          navigate(currentPath); // or redirect to a default route if preferred
+        }
+        else {
+          if (currentPath === '/login') {
+            navigate(`/${login_data.route}`);
+          }
         }
       } else {
         setState((prevState) => ({ ...prevState, loading: false }));
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error checking session:", error);
       setState((prevState) => ({
         ...prevState,
         netError: true,
         loading: false,
       }));
     }
-  };
+  }, [navigate, location.pathname, allowedRoutes]);
 
   useEffect(() => {
     checkCurrSession();
-  }, [navigate]);
+  }, [checkCurrSession]);
+
+  const contextValue = useMemo(() => [state, setState], [state]);
 
   if (state.loading) {
     return <Loading />;
@@ -65,7 +67,7 @@ export const AppProvider = ({ children }) => {
   }
 
   return (
-    <AppContext.Provider value={[state, setState]}>
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   );
