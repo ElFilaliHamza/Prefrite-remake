@@ -8,7 +8,7 @@ import { formatNumber } from "../../tools/global";
 
 const SellPayer = () => {
   const { panier, setPanier } = useSellContext();
-  const sellerData = useSellerData();
+  const {sellerData} = useSellerData();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [payment, setPayment] = useState(0);

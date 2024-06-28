@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchSellerDetails, fetchMoreArticles, handPayement, updateSellerArticle } from '../../api/adminAPI';
 import Loading from '../../components/Loading';
 import StatsChart from '../../components/StatsChart';
@@ -19,7 +19,7 @@ const SellerDetails = () => {
   const [editArticleId, setEditArticleId] = useState(null);
   const [editArticleQty, setEditArticleQty] = useState(0);
   const [showPrint, setShowPrint] = useState(false);
-  const [handlePrint, PrintComponent] = usePrintComponent();
+  const [, PrintComponent] = usePrintComponent();
   const limit = 10; // Number of articles to fetch per request
 
   useEffect(() => {
@@ -153,7 +153,7 @@ const SellerDetails = () => {
           <div className="user-vendeur">
             <div className="user-vendeur-child">
               <div className="vendeur-articles user-vendeur-item">
-                <a className="art-add"><span>Articles</span></a>
+                <Link className="art-add"><span>Articles</span></Link>
                 {articles.length > 0 && (
                   <>
                     <table className="modern-table">

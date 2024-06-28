@@ -20,7 +20,7 @@ const MagasinDashboard = ({route}) => {
         };
 
         fetchData();
-    }, []);
+    }, [route]);
 
     return (
         <div className="app-container">

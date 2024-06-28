@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api/api';
 import Loading from '../../components/Loading';
 import { fetchRouteCommands } from '../../api/adminAPI';
 
@@ -13,6 +12,27 @@ const CommandsHistory = ({ route }) => {
     const [skip, setSkip] = useState(0);
     const [endCommands, setEndCommands] = useState(false);
     const limit = 10;
+    const getNewCommands = async () => {
+        try {
+            const data = await fetchRouteCommands({
+                route,
+                fullfiled: true,
+                filter: {
+                    startTime: startDate,
+                    endTime: endDate,
+                    sellerCmd: selectedSeller
+                }
+            });
+
+            if (data.commands.length) {
+                setCommands(data.commands);
+                setSkip(0);
+                setEndCommands(data.endCmds);
+            }
+        } catch (error) {
+            console.error('Error fetching new commands:', error);
+        }
+    };
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -39,11 +59,13 @@ const CommandsHistory = ({ route }) => {
         if (commands.length === 0) {
             fetchInitialData();
         }
-    }, []);
 
-    useEffect(() => {
         getNewCommands();
-    }, [selectedSeller, startDate, endDate]);
+    });
+
+    // useEffect(() => {
+        
+    // }, [selectedSeller, startDate, endDate, getNewCommands]);
 
     const loadMoreCommands = async () => {
         try {
@@ -68,27 +90,7 @@ const CommandsHistory = ({ route }) => {
         }
     };
 
-    const getNewCommands = async () => {
-        try {
-            const data = await fetchRouteCommands({
-                route,
-                fullfiled: true,
-                filter: {
-                    startTime: startDate,
-                    endTime: endDate,
-                    sellerCmd: selectedSeller
-                }
-            });
-
-            if (data.commands.length) {
-                setCommands(data.commands);
-                setSkip(0);
-                setEndCommands(data.endCmds);
-            }
-        } catch (error) {
-            console.error('Error fetching new commands:', error);
-        }
-    };
+    
 
     const handleSellerChange = (e) => {
         setSelectedSeller(e.target.value);

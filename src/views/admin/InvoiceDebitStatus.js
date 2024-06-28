@@ -30,7 +30,7 @@ const InvoiceDebitStatus = ({route}) => {
         };
 
         getInvoicesData();
-    }, [idClient]);
+    }, [idClient,route]);
 
     if (loading) {
         return <Loading />;

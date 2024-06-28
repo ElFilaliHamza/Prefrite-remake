@@ -26,22 +26,6 @@ const AddCategory = () => {
 
   return (
     <div className="app-container">
-      <div className="user-nav">
-        <div className="user-nav-item">
-          <a className="user-name-title" href="/superadmin">Super Admin</a>
-        </div>
-        <div className="user-nav-item btn-group-around">
-          <div className="refresh-btn" tabIndex="0">
-            <i className="fas fa-sync"></i>
-          </div>
-          <div className="refresh-btn" tabIndex="0" style={{ margin: '5px 10px' }}>
-            <i className="fas fa-adjust"></i>
-          </div>
-          <div className="Btn logoutBtn refresh-btn">
-            <i className="fas fa-sign-out"></i>
-          </div>
-        </div>
-      </div>
       <div className="simple-container">
         <div className="path-nav">
           <a className="path-btn" href="/superadmin">
@@ -58,7 +42,7 @@ const AddCategory = () => {
           <form className="add-form" onSubmit={handleSubmit}>
             <div className="appTitle">Ajouter une categorie</div>
             <div className="appInput">
-              <input 
+              <input
                 placeholder="Nom"
                 type="text"
                 id="name"
@@ -74,7 +58,7 @@ const AddCategory = () => {
           </form>
         </div>
       </div>
-      
+
     </div>
   );
 };

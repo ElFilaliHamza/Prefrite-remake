@@ -6,7 +6,6 @@ import Loading from "../../components/Loading";
 const LiveSellers = () => {
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [state] = useAppContext();
   const socketRef = state.socket;
 
@@ -55,15 +54,22 @@ const LiveSellers = () => {
     return <Loading />;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   const sortedSellers = sellers.sort((a, b) => {
-    const aConnectTime = a.connectTime ? new Date(a.connectTime).getTime() : 0;
-    const bConnectTime = b.connectTime ? new Date(b.connectTime).getTime() : 0;
-    return bConnectTime - aConnectTime; // Sort in descending order
+    if (a.connected && !b.connected) {
+      return -1;
+    } else if (!a.connected && b.connected) {
+      return 1;
+    } else if (a.connected && b.connected) {
+      const aConnectTime = a.connectTime ? new Date(a.connectTime).getTime() : 0;
+      const bConnectTime = b.connectTime ? new Date(b.connectTime).getTime() : 0;
+      return bConnectTime - aConnectTime; // Sort by connectTime if both are connected
+    } else {
+      const aDisconnectTime = a.disconnectTime ? new Date(a.disconnectTime).getTime() : 0;
+      const bDisconnectTime = b.disconnectTime ? new Date(b.disconnectTime).getTime() : 0;
+      return bDisconnectTime - aDisconnectTime; // Sort by disconnectTime if both are disconnected
+    }
   });
+
 
   return (
     <div className="app-container">

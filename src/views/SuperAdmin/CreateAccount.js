@@ -1,7 +1,6 @@
 // CreateAccount.js
 import React, { useState } from "react";
 import "../../assets/css/Styles/CreateAccount.css"; // Import the CSS file
-import api from "../../api/api";
 import config from "../../config/config";
 import { createAccount } from "../../api/accountsAPI";
 import { useNavigate } from "react-router-dom";

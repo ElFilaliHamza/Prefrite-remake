@@ -118,11 +118,12 @@ export const fetchSellerInfo = async () => {
   }
 };
 
-export const checkSellerAccess = async () => {
+export const checkAccess = async ({type=null, _id=null}) => {
   try {
     // Request access for seller
     const accessResponse = await api.post("/superadmin/access", {
-      type: config.BASE_ROUTE.SELLER,
+      type: type,
+      _id: _id,
     });
     return accessResponse.data;
   } catch (error) {

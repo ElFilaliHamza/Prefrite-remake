@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 const COLORS = ["#FFC300", "#4BC0C0", "#FF6384"];
 
 const StockMobile = () => {
-  const sellerData = useSellerData();
+  const {sellerData} = useSellerData();
 
   if (!sellerData) {
     return <div>Error loading seller data</div>;

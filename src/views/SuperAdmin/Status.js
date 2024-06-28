@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchDebitCount } from "../../api/debitAPI";
 import Loading from "../../components/Loading";
 import { downloadDatabaseBackup } from "../../api/extraAPI";
@@ -7,7 +7,6 @@ import { downloadDatabaseBackup } from "../../api/extraAPI";
 const Status = () => {
   const [debitCount, setDebitCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);

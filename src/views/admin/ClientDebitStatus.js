@@ -29,7 +29,7 @@ const ClientDebitStatus = ({route}) => {
         };
 
         getClientsData();
-    }, [idSeller]);
+    }, [idSeller, route]);
 
     if (loading) {
         return <Loading />;

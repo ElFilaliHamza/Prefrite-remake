@@ -14,13 +14,14 @@ const LogoutButton = ({ logout_route }) => {
       // if (logout_route === config.BASE_ROUTE.SUPER_ADMIN){
       const logout_data = await logout(logout_route);
       const login_data = await checkSession();
-      console.log("CheckSession 2");
-      console.log(login_data);
-      if (login_data.logged){
+      console.log("logout_data");
+      console.log(logout_data);
+      if (login_data.logged && !logout_data){
         console.log("login_data.route in logout")
         console.log(login_data.route)
         navigate(`/${login_data.route}`);
-      }else{
+      }
+      else if (!logout_data.logged){
         navigate("/login");
       }
     } catch (error) {

@@ -17,12 +17,10 @@ const AddCmdRoutes = () => {
   }
 
   return (
-    <PanierProvider>
       <Routes>
         <Route path="/" element={<ChooseCategorie />} />
         <Route path="/:idCat" element={<AddCommand />} />
       </Routes>
-    </PanierProvider>
   );
 };
 

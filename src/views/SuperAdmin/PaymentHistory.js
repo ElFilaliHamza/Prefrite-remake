@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { fetchPayementHistory } from "../../api/stats";
 import { getTodayDate } from "../../tools/dates";

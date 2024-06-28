@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchAlertsCount } from '../../api/alertsAPI';
 import { useAppContext } from '../../components/contexts/AppContext'; // Import useAppContext
-import PathNav from '../../components/PathNav';
+// import PathNav from '../../components/PathNav';
+import config from '../../config/config';
+import { checkAccess } from '../../api/sellersAPI';
 
 const SuperAdminDashboard = () => {
+  const navigate = useNavigate();
   const [alertsCount, setAlertsCount] = useState(null);
   const [state] = useAppContext(); // Use the AppContext
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getAlertsCount = async () => {
@@ -21,6 +23,16 @@ const SuperAdminDashboard = () => {
 
     getAlertsCount();
   }, []);
+
+  const authSeller = async () => {
+    const access = await checkAccess({ type: config.BASE_ROUTE.SELLER });
+    if (access.ok) {
+      navigate("/" + access.route);
+    } else {
+      navigate("/" + state.session.route);
+    }
+    
+  }
 
   const connectedSellers = state.connectedSellers || 0; // Get the number of connected sellers from state
 
@@ -59,10 +71,10 @@ const SuperAdminDashboard = () => {
               <div className="card-status card-danger-status"><i className="fas fa-times"></i></div>
             )}
           </Link>
-          <a className="app-card modern-app-card card-c-7" href="/seller">
+          <Link className="app-card modern-app-card card-c-7" onClick={() => authSeller()}>
             Vente
             <div className="card-badge"><i className="fas fa-truck"></i></div>
-          </a>
+          </Link>
           <Link className="app-card modern-app-card card-c-8" to="/superadmin/payments">
             Encaissement
             <div className="card-badge"><i className="fas fa-coins"></i></div>

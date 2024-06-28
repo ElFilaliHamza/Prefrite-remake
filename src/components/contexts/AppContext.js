@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
     netError: false,
     loading: true,
     socket: null,
+    connectedSellers: 0,
   });
 
   const checkCurrSession = useCallback(async () => {

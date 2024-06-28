@@ -28,6 +28,13 @@ export const dateToString = (date) => {
 };
 
 
+// Function to format the date
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  return date.toLocaleString(); // Format the date as per your requirement
+};
+
+
 
 
 

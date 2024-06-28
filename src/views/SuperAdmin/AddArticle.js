@@ -10,13 +10,13 @@ const AddArticle = () => {
   const [qtAlerte, setQtAlerte] = useState("");
   const [commission, setCommission] = useState(""); // Add commission state
   const [image, setImage] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { catId } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError(null);
 
     if (
       !catId ||
@@ -54,7 +54,9 @@ const AddArticle = () => {
       setError("An error occurred. Please try again.");
     }
   };
-
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
   return (
     <div className="app-container">
       <div className="simple-container">

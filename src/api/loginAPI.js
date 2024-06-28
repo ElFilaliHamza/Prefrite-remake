@@ -32,10 +32,14 @@ export const logout = async (route) => {
   console.log("logout");
   console.log(route);
   logoutEndpoint = `/${route}/session/logout`;
-
+  try {
   // const response_2 = await api.post("admin/session/logout");
   const response = await api.post(logoutEndpoint);
   return response.data;
+  }catch (error) {
+    console.error("Error logging out:", error);
+    return null;
+    }
 };
 
 export const checkSession = async () => {

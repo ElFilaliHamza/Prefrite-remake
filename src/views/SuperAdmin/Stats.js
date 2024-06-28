@@ -11,7 +11,6 @@ import PathNav from "../../components/PathNav";
 
 const Stats = ({ startTime, endTime }) => {
   const [statistics, setStatistics] = useState({});
-  const [sellers, setSellers] = useState([]);
   const [sellersStats, setSellersStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSellers, setShowSellers] = useState(false);
@@ -27,7 +26,6 @@ const Stats = ({ startTime, endTime }) => {
         const sellersStats = getSellersRevenue(sellersData.sellers);
         setSellersStats(sellersStats);
         setStatistics(stats);
-        setSellers(sellersData.sellers);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching sellers data:", error);

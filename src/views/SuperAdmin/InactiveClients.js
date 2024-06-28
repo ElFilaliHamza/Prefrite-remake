@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { fetchInactiveClients } from "../../api/clientsAPI";
-// import "../../assets/css/Styles/InactiveClients.css"; // Import the CSS file
-import Loading from "../../components/Loading";
 
 const InactiveClients = () => {
   const [clients, setClients] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      fetchInactiveClients(startDate, endDate).then((response) => {
-        setClients(response || []);
-      })
+    fetchInactiveClients(startDate, endDate).then((response) => {
+      setClients(response || []);
+    })
   }, [startDate, endDate]);
 
 
@@ -47,17 +44,15 @@ const InactiveClients = () => {
           onChange={(e) => handleDateChange(e, setEndDate)}
         />
       </div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="card-list">
+      {
+        <div className="card-list black-card-text">
           {clients.map((client) => (
             <div key={client._id} className="app-card">
               {client.name}
             </div>
           ))}
         </div>
-      )}
+      }
     </div>
   );
 };

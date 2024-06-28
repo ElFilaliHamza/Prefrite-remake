@@ -9,6 +9,15 @@ export const getCategories = async (skip = 0, getAll = false) => {
     throw error;
   }
 };
+export const getOneCategory = async (_id) => {
+  try {
+    const response = await api.post('/superadmin/categories/getOne', {_id: _id});
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching one category:', error);
+    throw error;
+  }
+};
 
 
 export const addCategory = async (name) => {

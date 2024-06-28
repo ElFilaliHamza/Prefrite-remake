@@ -4,7 +4,7 @@ import { useSellerData } from "../../components/contexts/SellerContext";
 import { formatNumber } from "../../tools/global";
 
 const SellerDashboard = () => {
-  const sellerData = useSellerData();
+  const {sellerData} = useSellerData();
 
   if (!sellerData) {
     return <div>Error loading seller data</div>;

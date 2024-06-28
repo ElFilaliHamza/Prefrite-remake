@@ -1,58 +1,49 @@
-import React, { createContext, useState, useContext, useMemo } from "react";
+// src/contexts/SellContext.js
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 
 const SellContext = createContext();
 
 export const SellProvider = ({ children }) => {
-  const [panier, setPanier] = useState({
-    clientId: null,
-    arts: [],
-    payment: 0,
-  });
-  
+  const [panierArticles, setPanierArticles] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [client, setClient] = useState(null);
 
-  const addToPanier = (art) => {
-    setPanier((prevPanier) => {
-      const existingArt = prevPanier.arts.find((a) => a._id === art._id);
-      let updatedArts;
-      if (existingArt) {
-        updatedArts = prevPanier.arts.map((a) =>
-          a._id === art._id ? { ...a, qt: a.qt + art.qt } : a
-        );
-      } else {
-        updatedArts = [...prevPanier.arts, art];
+  const addArticleToPanier = (articleId, quantity, price) => {
+    setPanierArticles((prevArticles) => {
+      if (!quantity) {
+        return prevArticles.filter(article => article._id !== articleId);
       }
-      return { ...prevPanier, arts: updatedArts };
+
+      const articleIndex = prevArticles.findIndex(article => article._id === articleId);
+      if (articleIndex !== -1) {
+        const updatedArticles = [...prevArticles];
+        updatedArticles[articleIndex].qt = quantity;
+        updatedArticles[articleIndex].price = price;
+        return updatedArticles;
+      }
+      return [...prevArticles, { _id: articleId, qt: quantity, price }];
     });
   };
 
-  const removeFromPanier = (artId) => {
-    setPanier((prevPanier) => ({
-      ...prevPanier,
-      arts: prevPanier.arts.filter((a) => a._id !== artId),
-    }));
-  };
+  useEffect(() => {
+    const total = panierArticles.reduce((sum, article) => sum + (article.price * article.qt), 0);
+    setTotalPrice(total);
+  }, [panierArticles]);
 
-  const clearPanier = () => {
-    setPanier({
-      clientId: null,
-      arts: [],
-      payment: 0,
-    });
+  const reset = () => {
+    setPanierArticles([]);
+    setTotalPrice(0);
+    setClient(null);
   };
-
-  const total = useMemo(() => {
-    return panier.arts.reduce((sum, art) => sum + art.qt * art.price, 0);
-  }, [panier.arts]);
 
   const contextValue = useMemo(() => ({
-    panier,
-    setPanier,
-    addToPanier,
-    removeFromPanier,
-    clearPanier,
-    total,
-    setTotal: (value) => setPanier((prev) => ({ ...prev, payment: value }))
-  }), [panier, total]);
+    panierArticles,
+    totalPrice,
+    addArticleToPanier,
+    client,
+    setClient,
+    reset
+  }), [panierArticles, totalPrice, client]);
 
   return (
     <SellContext.Provider value={contextValue}>
@@ -61,4 +52,4 @@ export const SellProvider = ({ children }) => {
   );
 };
 
-export const useSellContext = () => useContext(SellContext);
+export const useSell = () => useContext(SellContext);

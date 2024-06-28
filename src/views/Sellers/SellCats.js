@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../../assets/css/Styles/Sell.css";
 import { useSellerData } from "../../components/contexts/SellerContext";
-import { useSellContext } from "../../components/contexts/SellContext";
+import { formatNumber } from "../../tools/global";
+import { usePanierContext } from "../../components/contexts/SellContext_Old";
 
 const SellCats = () => {
   const { idClient } = useParams();
-  const { total, setPanier } = useSellContext();
-  const sellerData = useSellerData();
-  const categories = sellerData.artsNcats.cats;
-  const client = sellerData.clients.find((client) => client._id === idClient);
+  const {sellerData} = useSellerData();
+  const { state } = usePanierContext();
+  const panier = state;
+
+  const categories = useMemo(() => sellerData.artsNcats.cats, [sellerData.artsNcats.cats]);
+  const client = useMemo(() => sellerData.clients.find((client) => client._id === idClient), [idClient, sellerData.clients]);
 
   return (
     <div className="container">
@@ -83,14 +86,16 @@ const SellCats = () => {
                         <strong>Total: </strong>
                       </td>
                       <td className="col">
-                        <strong>{total.toFixed(2)}</strong>
+                        <strong>{formatNumber(panier.payment)} DHS</strong>
                       </td>
                     </tr>
                   </tbody>
                 </table>
                 <div className="button-row d-flex mt-4">
-                  <button className="flat-btn-small btn-red">Annuler</button>
-                  <Link className="ml-auto flat-btn-small btn-blue" to={`/seller/sell/payer`}>
+                  <button className="flat-btn-small btn-red" onClick={() => console.log('Cancel button clicked')}>
+                    Annuler
+                  </button>
+                  <Link className="ml-auto flat-btn-small btn-blue" to={`/payer`}>
                     Terminé
                   </Link>
                 </div>

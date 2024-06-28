@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import api from '../api/api'; // Adjust the import based on your file structure
 
 const ArticleCard = ({ article }) => {

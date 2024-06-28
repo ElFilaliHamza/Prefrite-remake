@@ -26,6 +26,7 @@ export const PanierProvider = ({ children }) => {
   }, []);
 
   const addArticleToPanier = useCallback((articleId, quantity) => {
+
     setPanierArticles((prevArticles) => {
       if (!quantity) {
         return prevArticles.filter(article => article._id !== articleId);
@@ -39,6 +40,7 @@ export const PanierProvider = ({ children }) => {
       }
       return [...prevArticles, { _id: articleId, qt: quantity }];
     });
+
   }, []);
 
   const contextValue = useMemo(() => ({

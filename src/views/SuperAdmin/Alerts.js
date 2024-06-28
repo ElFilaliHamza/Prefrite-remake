@@ -11,13 +11,13 @@ const Alerts = () => {
 
   const [endAlerts, setEndAlerts] = useState(false);
   const [skip, setSkip] = useState(0);
-  const [alertsCount, setAlertsCount] = useState(0);
+  // const [alertsCount, setAlertsCount] = useState(0);
   const navigate = useNavigate();
   const componentRef = useRef();
 
   useEffect(() => {
     fetchInitialAlerts();
-    fetchAlertsCount().then(setAlertsCount).catch(console.error);
+    // fetchAlertsCount().then(setAlertsCount).catch(console.error);
   }, []);
 
 

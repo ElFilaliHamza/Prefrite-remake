@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
-import { useSellerData } from "./contexts/SellerContext";
 import LogoutButton from "./auth/LogoutButton";
 import ThemeToggleButton from "./ThemeToggleButton";
 import RefreshButton from "./RefreshButton";
@@ -10,10 +9,11 @@ import config from "../config/config";
 
 const Header = ({ title, logout_route }) => {
   const [state] = useAppContext();
-  const sessionRoute = state.session.route || "";
-  const sellerData = useSellerData();
+  // const sessionRoute = state.session.route || "";
+  const sessionRoute = logout_route || "logout";
+  // const {sellerData} = useSellerData();
   if (!title) {
-    title = sellerData?.sellerInfo?.name || "Loading...";
+    title = "Home";
   }
 
   return (

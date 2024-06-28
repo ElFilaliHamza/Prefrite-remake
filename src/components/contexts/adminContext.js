@@ -29,21 +29,21 @@ export const AdminDataProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
-          const access = await checkAdminAccess();
-          if (access.ok) {
-            await getAdminData();
-          } else {
-            navigate(`/${state.session.route}`);
-          }
+        // if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
+        //   const access = await checkAdminAccess();
+        //   if (access.ok) {
+        //     await getAdminData();
+        //   } else {
+        //     navigate(`/${state.session.route}`);
+        //   }
+        // } else {
+        const session_data = await checkRouteSession(config.BASE_ROUTE.ADMIN);
+        if (session_data.logged) {
+          await getAdminData();
         } else {
-          const session_data = await checkRouteSession(config.BASE_ROUTE.ADMIN);
-          if (session_data.logged) {
-            await getAdminData();
-          } else {
-            navigate("/login");
-          }
+          navigate("/login");
         }
+        // }
       } catch (error) {
         console.error("Error during data fetching:", error);
         navigate("/login");

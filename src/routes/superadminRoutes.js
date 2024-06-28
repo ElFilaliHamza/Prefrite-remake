@@ -26,7 +26,6 @@ import ClientDebitStatus from "../views/admin/ClientDebitStatus";
 import InvoiceDebitStatus from "../views/admin/InvoiceDebitStatus";
 
 const SuperAdminRoutes = () => {
-  
   return (
     <SuperDataProvider>
       <Header title={config.ROLE_NAME_TEXT.SUPER_ADMIN} logout_route={config.BASE_ROUTE.SUPER_ADMIN} />
@@ -42,18 +41,12 @@ const SuperAdminRoutes = () => {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/article/:idArt" element={<ArticleDetail />} />
         <Route path="/addArticle/:catId" element={<AddArticle />} />
-        {/* <Route path="/debitStatus" element={<DebitStatus />} /> */}
-        {/* <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus />} /> */}
         <Route path="/stockStatus" element={<EtatDeStock />} />
-        {/* <Route
-          path="/invoiceDebitStatus/:idClient"
-          element={<InvoiceDebitStatus />}
-        /> */}
-        <Route path="/debitStatus" element={<DebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>} />
-        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>} />
+        <Route path="/debitStatus" element={<DebitStatus route={config.BASE_ROUTE.SUPER_ADMIN} />} />
+        <Route path="/debitStatus/:idSeller" element={<ClientDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN} />} />
         <Route
           path="/invoiceDebitStatus/:idClient"
-          element={<InvoiceDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN}/>}
+          element={<InvoiceDebitStatus route={config.BASE_ROUTE.SUPER_ADMIN} />}
         />
         <Route
           path="/debitStatusInvoice/:idInvoice"

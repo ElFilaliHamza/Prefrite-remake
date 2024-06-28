@@ -13,9 +13,10 @@ import AddCmdRoutes from "../components/AddCmdRoutes";
 import SellRoutes from "./sellRoutes";
 import "../assets/css/Styles/Styles.css";
 import PageNotFound from "../views/PageNotFound";
+import ShopRoutes from "./shopRoutes";
 
 const SellerRoutes = () => {
-  const sellerData = useSellerData();
+  const { sellerData } = useSellerData();
   if (!sellerData) {
     return (
       <>
@@ -36,10 +37,14 @@ const SellerRoutes = () => {
         <Route path="/cmd/:idCmd" element={<CommandDetail />} />
         <Route path="/invoice/:idInvoice" element={<SellerInvoiceDetail route={config.BASE_ROUTE.SELLER} />} />
         <Route path="/addCommand/*" element={<AddCmdRoutes />} />
-        <Route path="/sell/*" element={<SellRoutes />} />
+        <Route path="/shop/*" element={<ShopRoutes />} />
+        <Route path="/sell/*" element={
+            <SellRoutes />
+        } />
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>
+      
     </>
   );
 };

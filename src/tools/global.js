@@ -4,3 +4,6 @@ export const formatNumber = (number) => (number ? number.toFixed(2) : "0.00");
 export const formatCurrency = (value) => {
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'DHS' }).format(value);
 };
+export const findDataById = (data, _id) =>  {
+    return data.find(d => d._id === _id);
+  }

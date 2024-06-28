@@ -29,7 +29,7 @@ const DebitStatus = ({route}) => {
     };
 
     getSellersData();
-  }, []);
+  }, [route]);
 
   if (loading) {
     return <Loading />;

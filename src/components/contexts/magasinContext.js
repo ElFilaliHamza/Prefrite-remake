@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
-import { checkAdminAccess } from "../../api/sellersAPI";
+import { checkAdminAccess, checkAccess } from "../../api/sellersAPI";
 import config from "../../config/config";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
@@ -28,21 +28,23 @@ export const MagasinDataProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
-          const access = await checkAdminAccess();
-          if (access.ok) {
-            await getMagasinData();
-          } else {
-            navigate("/" + state.session.route);
-          }
-        } else {
+        setLoading(true);
+        // if (state.session.route === config.BASE_ROUTE.SUPER_ADMIN) {
+        //   const access = await checkAccess({ type: config.BASE_ROUTE.MAGASIN, _id: magasinId });
+        //   if (access.ok) {
+        //     await getMagasinData();
+        //   } else {
+        //     navigate("/" + state.session.route);
+        //   }
+        // } else {
           const session_data = await checkRouteSession(config.BASE_ROUTE.MAGASIN);
           if (session_data.logged) {
             await getMagasinData();
           } else {
             navigate("/login");
           }
-        }
+        // }
+        setLoading(false);
       } catch (error) {
         console.error("Error during data fetching:", error);
         navigate("/login");

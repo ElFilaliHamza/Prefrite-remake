@@ -31,7 +31,7 @@ const Clients = () => {
         };
 
         fetchInitialData();
-    }, []);
+    });
 
     useEffect(() => {
         setSkip(0); // Reset skip when search or selectedSeller changes

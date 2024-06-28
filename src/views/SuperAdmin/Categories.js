@@ -18,7 +18,7 @@ const Categories = () => {
     return () => {
       effectRan.current = true;
     };
-  }, []);
+  });
 
   const loadCategories = async () => {
     try {
@@ -51,7 +51,7 @@ const Categories = () => {
     <div className="app-container">
       <div className="simple-container">
         <div className="card-list">
-          <Link to="/superadmin/addCategory" className="app-card card-add">
+          <Link to="/superadmin/addCategory" className="app-card card-add black-card-text">
             <i className="fas fa-plus"></i>
           </Link>
           {categories.map((category) => (

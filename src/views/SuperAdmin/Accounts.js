@@ -3,9 +3,13 @@ import { fetchAccounts } from "../../api/accountsAPI";
 import config from "../../config/config";
 import Loading from "../../components/Loading";
 import api from "../../api/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { checkAccess } from "../../api/sellersAPI";
+import { useAppContext } from "../../components/contexts/AppContext";
 
 const Accounts = () => {
+  const navigate = useNavigate();
+  const { state } = useAppContext()
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedCard, setExpandedCard] = useState(null);
@@ -21,6 +25,14 @@ const Accounts = () => {
       .catch(console.error);
   }, []);
 
+  const authAccount = async (type, _id) => {
+    const access = await checkAccess({ type: type, _id: _id });
+    if (access.ok) {
+      navigate("/" + access.route);
+    } else {
+      navigate("/" + state.session.route);
+    }
+  }
   const toggleCardExpansion = (id) => {
     setExpandedCard(expandedCard === id ? null : id);
     setEditMode(null);
@@ -154,11 +166,11 @@ const Accounts = () => {
                         </>
                       ) : (
                         <>
-                          <Link to={`/${account.type}/${account._id}`}>
+                          <a onClick={() => authAccount(account.type, account._id)}>
                             <div className="superusers-action-btn superusers-open">
                               <i className="fas fa-external-link-alt"></i>
                             </div>
-                          </Link>
+                          </a>
                           <div
                             className="superusers-action-btn superusers-edit"
                             onClick={() => startEdit(account)}

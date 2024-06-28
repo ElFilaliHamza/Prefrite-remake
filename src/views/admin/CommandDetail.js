@@ -32,7 +32,7 @@ const CommandDetail = ({ route }) => {
         };
 
         fetchCommand();
-    }, [commandId]);
+    }, [commandId,route]);
 
     const handleRemoveArticle = async () => {
         try {
